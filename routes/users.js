@@ -1,8 +1,10 @@
 var express = require("express");
-const { csrfProtection, asyncHandler } = require("../utils");
-const db = require("../db/models");
 const bcrypt = require("bcryptjs");
 const { check, validationResult } = require("express-validator");
+
+const { csrfProtection, asyncHandler } = require("../utils");
+const db = require("../db/models");
+const { loginUser } = require("../auth");
 
 var router = express.Router();
 
@@ -168,9 +170,9 @@ router.post(
             errors = validatorErrors.array().map((e) => e.msg);
         }
 
-        res.render("user-login", {
+        res.render("login", {
             title: "Login",
-            emailAddress,
+            email,
             errors,
             csrfToken: req.csrfToken(),
         });
