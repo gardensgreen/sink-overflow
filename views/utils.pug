@@ -1,12 +1,12 @@
 mixin validationErrorSummary(errors)
   if errors
-    div
+    div.form-container__error-container
       p The following error(s) occurred:
       ul
         each error in errors
           li= error
+  else 
 
-mixin field(labelText, fieldName, fieldValue, fieldType = 'text')
+mixin field(fieldName, fieldValue, placeholder, fieldType = 'text')
   div
-    label(for=fieldName)= labelText
-    input(type=fieldType id=fieldName name=fieldName value=fieldValue class='form-control')
+    input(type=fieldType id=fieldName name=fieldName value=fieldValue placeholder=placeholder)
