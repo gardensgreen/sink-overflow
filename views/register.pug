@@ -2,16 +2,23 @@ extends layout.pug
 
 include utils.pug
 
+append head
+  //- add page specific styles by appending to the head
+  link(rel="stylesheet" href="/stylesheets/register.css")
+
 block content
-    +validationErrorSummary(errors)
-    form(action='/register' method='post')
-        input(type='hidden' name='_csrf' value=csrfToken)
-        +field('Username', 'username', user.username)
-        +field('Email Address', 'email', user.email)
-        +field('Password', 'password', user.password, 'password')
-        +field('Confirm Password', 'confirmPassword', '', 'password')
-        div(class='py-4')
-            button(type='submit') Register
-            a(href='/') Cancel
-    div
-        p: a(href="/login") Already have an account?
+    div.form-container
+        h1.form-container__header Register
+        div.form-container__elements
+            +validationErrorSummary(errors)
+            form(action='/register' method='post')
+                input(type='hidden' name='_csrf' value=csrfToken)
+                +field('username', user.username, 'Username') 
+                +field( 'email', user.email, 'Email Address')
+                +field( 'password', user.password, 'Password', 'password')
+                +field( 'confirmPassword', '', 'Confirm password', 'password')
+                div(class='py-4')
+                    button.form-container-elements__button(type='submit') Register
+                    a.form-container-elements__cancel(href='/') Cancel
+            div
+                p: a(href="/login") Already have an account?
