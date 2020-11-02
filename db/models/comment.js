@@ -6,7 +6,6 @@ module.exports = (sequelize, DataTypes) => {
             comment: {
                 type: DataTypes.TEXT,
                 allowNull: false,
-                q,
             },
             userId: {
                 type: DataTypes.INTEGER,
