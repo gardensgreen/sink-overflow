@@ -55,7 +55,18 @@ const userValidators = [
         }),
 ];
 
+const loginValidators = [
+    check("email")
+        .exists({ checkFalsy: true })
+        .withMessage("Please provide a value for Email Address"),
+    check("password")
+        .exists({ checkFalsy: true })
+        .withMessage("Please provide a value for Password"),
+];
 //Routes
+
+//User Registration
+/* ************************************************************************************** */
 router.get("/register", csrfProtection, (req, res) => {
     const user = db.User.build();
     res.render("register", {
@@ -113,7 +124,23 @@ router.post(
         }
     })
 );
+/* ************************************************************************************** */
+//User Login
+/* ************************************************************************************** */
+router.get("/login", csrfProtection, (req, res) => {
+    res.render("login", {
+        csrfToken: req.csrfToken(),
+    });
+});
 
-router.post("/login");
+router.post("/login", csrfProtection, loginValidators, asyncHandler(async (req, res) => {
+
+  const {email, }
+
+
+
+
+}));
+
 
 module.exports = router;
