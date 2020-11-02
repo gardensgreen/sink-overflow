@@ -133,14 +133,48 @@ router.get("/login", csrfProtection, (req, res) => {
     });
 });
 
-router.post("/login", csrfProtection, loginValidators, asyncHandler(async (req, res) => {
+router.post(
+    "/login",
+    csrfProtection,
+    loginValidators,
+    asyncHandler(async (req, res) => {
+        const { email, password } = req.body;
 
-  const {email, }
+        let errors = [];
 
+        const validatorErrors = validationResult(req);
 
+        if (validatorErrors.isEmpty()) {
+            const user = await db.User.findOne({
+                where: { email },
+            });
 
+            if (user !== null) {
+                const passwordMatch = await bcrypt.compare(
+                    password,
+                    user.hashedPassword.toString()
+                );
 
-}));
+                if (passwordMatch) {
+                    loginUser(req, res, user);
+                    return res.redirect("/");
+                }
+            }
 
+            errors.push(
+                "Login failed for the provided email address and password"
+            );
+        } else {
+            errors = validatorErrors.array().map((e) => e.msg);
+        }
+
+        res.render("user-login", {
+            title: "Login",
+            emailAddress,
+            errors,
+            csrfToken: req.csrfToken(),
+        });
+    })
+);
 
 module.exports = router;
