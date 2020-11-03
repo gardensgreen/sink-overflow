@@ -70,12 +70,16 @@ const loginValidators = [
 //User Registration
 /* ************************************************************************************** */
 router.get("/register", csrfProtection, (req, res) => {
-    const user = db.User.build();
-    res.render("register", {
-        title: "Register",
-        user,
-        csrfToken: req.csrfToken(),
-    });
+    if (!res.locals.authenticated) {
+        const user = db.User.build();
+        res.render("register", {
+            title: "Register",
+            user,
+            csrfToken: req.csrfToken(),
+        });
+    } else {
+        res.redirect("/");
+    }
 });
 
 router.post(
