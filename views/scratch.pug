@@ -5,15 +5,15 @@ append head
   link(rel="stylesheet" href="/stylesheets/login.css")
 block content
   div.form-container
-        h1.form-container__header Login
-        div.form-container__elements
+    h1.form-container__header Register
+      div.form-container__elements
         +validationErrorSummary(errors)
         form(action='/login' method='post')
             input(type='hidden' name='_csrf' value=csrfToken)
-            +field('email', email, 'Email', 'email')
-            +field('password', null, 'Password', 'password')
-            div.form-container-elements__actions-container
+            +field('username', user.username, 'Username') 
+            +field( 'password', user.password, 'Password', 'password')
+            div(class='py-4')
                 button.form-container-elements__button(type='submit') Login
                 a.form-container-elements__cancel(href='/') Cancel
         div
-         p: a(href='/register') Don't have an account
+          p: a(href='/register') Don't have an account
