@@ -9,3 +9,12 @@ append head
 block content
   h1= title
   p Welcome to your Project Skeleton
+  ul 
+    each question in questions
+      li= question.title
+      li= question.User.username
+      li= question.createdAt
+      each vote in question.Votes
+        li= vote.isDownvote
+      //- each vote in question.Vote
+      //-   li= vote.isDownvote
