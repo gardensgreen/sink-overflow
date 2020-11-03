@@ -37,7 +37,7 @@ app.use(
 );
 store.sync();
 app.use(express.static(path.join(__dirname, "public")));
-app.use(asyncHandler(restoreUser));
+app.use(restoreUser);
 app.use("/", indexRouter);
 app.use(usersRouter);
 
