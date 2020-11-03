@@ -134,9 +134,13 @@ router.post(
 //User Login
 /* ************************************************************************************** */
 router.get("/login", csrfProtection, (req, res) => {
-    res.render("login", {
-        csrfToken: req.csrfToken(),
-    });
+    if (!res.locals.authenticated) {
+        res.render("login", {
+            csrfToken: req.csrfToken(),
+        });
+    } else {
+        res.redirect("/");
+    }
 });
 
 router.post(
