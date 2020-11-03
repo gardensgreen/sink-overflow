@@ -13,11 +13,11 @@ block content
             +validationErrorSummary(errors)
             form(action='/register' method='post')
                 input(type='hidden' name='_csrf' value=csrfToken)
-                +field('username', user.username, 'Username') 
+                +field('username', user.username, 'Username')
                 +field( 'email', user.email, 'Email Address')
                 +field( 'password', user.password, 'Password', 'password')
                 +field( 'confirmPassword', '', 'Confirm password', 'password')
-                div(class='py-4')
+                div.form-container-elements__actions-container
                     button.form-container-elements__button(type='submit') Register
                     a.form-container-elements__cancel(href='/') Cancel
             div
