@@ -6,10 +6,12 @@ const logger = require("morgan");
 const session = require("express-session");
 const SequelizeStore = require("connect-session-sequelize")(session.Store);
 
+const { asyncHandler } = require("./utils");
 const { sequelize } = require("./db/models");
 const { sessionSecret } = require("./config");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
+const { restoreUser } = require("./auth");
 
 const store = new SequelizeStore({
     db: sequelize,
@@ -35,7 +37,7 @@ app.use(
 );
 store.sync();
 app.use(express.static(path.join(__dirname, "public")));
-
+app.use(restoreUser);
 app.use("/", indexRouter);
 app.use(usersRouter);
 

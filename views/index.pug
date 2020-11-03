@@ -9,3 +9,8 @@ append head
 block content
   h1= title
   p Welcome to your Project Skeleton
+
+  if user
+    span Welcome #{user.username}!
+    form(action='/logout' method='post')
+      button(type='submit') Logout
