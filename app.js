@@ -4,10 +4,16 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const session = require("express-session");
+const SequelizeStore = require("connect-session-sequelize")(session.Store);
 
+const { sequelize } = require("./db/models");
 const { sessionSecret } = require("./config");
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
+
+const store = new SequelizeStore({
+    db: sequelize,
+});
 
 const app = express();
 
@@ -23,9 +29,11 @@ app.use(
         name: "sink-overflow.sid",
         secret: sessionSecret,
         resave: false,
+        store,
         saveUninitialized: false,
     })
 );
+store.sync();
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
