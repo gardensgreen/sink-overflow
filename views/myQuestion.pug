@@ -2,12 +2,13 @@ extends layout
 
 append head
   //- add page specific styles by appending to the head
-  link(rel="stylesheet" href="/stylesheets/index.css")
+  link(rel="stylesheet" href="/stylesheets/myQuestions.css")
   //- add page specific js
   //- script(src="/javascripts/index.js" type="module" defer)
   script(src="/javascripts/myQuestion.js" type="module" defer)
 
-  block content
+
+block content
   include top-nav
   include side-nav
   div.main
@@ -29,6 +30,3 @@ append head
             div.questions-block__user-info
               li= question.User.username
               li= question.formattedDate
-          
-
-         
