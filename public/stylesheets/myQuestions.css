@@ -21,9 +21,10 @@ body {
 
 .questions-block {
     background-color: #dfe7f0;
-    margin: 50px 120px;
+    margin: 25px 175px;
     display: flex;
     border-radius: 10px;
+    flex-direction: row;
     transition: background-color 600ms ease;
 }
 
@@ -32,6 +33,7 @@ body {
     flex-direction: column;
     margin: 10px;
     padding: 10px;
+    width: 100%;
 }
 
 .questions-block__user-info {
@@ -41,6 +43,7 @@ body {
     justify-content: center;
     padding: 30px 10px;
     margin-bottom: 20px;
+    justify-self: right;
 }
 
 .question-block__votes {
