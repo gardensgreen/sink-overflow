@@ -88,7 +88,7 @@ ul li {
 .answer-block {
     background-color: #f09d37a6;
     border: 1px solid #f09d37;
-    margin: 25px 150px;
+    margin: 25px 175px;
     display: flex;
     border-radius: 10px;
     transition: background-color 600ms ease;
