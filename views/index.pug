@@ -7,19 +7,13 @@ append head
   script(src="/javascripts/index.js" type="module" defer)
 
 block content
+  include top-nav
   include side-nav
-  main
-    h1= title
-    p Welcome to your Project Skeleton
-
-    if user
-      span Welcome #{user.username}!
-      form(action='/logout' method='post')
-        button(type='submit') Logout
-          ul
-    each question in questions
-      li= question.title
-      li= question.User.username
-      li= question.createdAt
-      li= question.voteCount
-      li= question.answerCounts
+  div.main
+    ul
+      each question in questions
+        li= question.title
+        li= question.User.username
+        li= question.createdAt
+        li= question.voteCount
+        li= question.answerCounts
