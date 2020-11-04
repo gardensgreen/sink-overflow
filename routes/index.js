@@ -7,6 +7,17 @@ const { Answer, Comment, Question, User, Vote, sequelize } = db;
 const { asyncHandler } = require("../utils");
 
 //Helper Functions
+const trimContent = (questions) => {
+    for (let i = 0; i < questions.length; i++) {
+        let question = questions[i];
+        let content = question.content;
+
+        let trimmed;
+        if (content.length > 140) trimmed = content.substring(0, 140);
+        question.trimmedContent = trimmed + "...";
+    }
+};
+
 const addVoteCount = (questions) => {
     for (let i = 0; i < questions.length; i++) {
         let voteCount = 0;
@@ -35,14 +46,28 @@ const addAnswerCount = (questions) => {
 };
 /* GET home page. */
 function convertDate(questions) {
-  let months = { Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06", Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12" };
-  for (let i = 0; i < questions.length; i++) {
-    let question = questions[i]
-    let createdAt = question.createdAt.toString()
-    let parts = createdAt.split(" ")
-    question.formattedDate = months[parts[1]] + "/" + parts[2] + "/" + parts[3];
-  }
-  }
+    let months = {
+        Jan: "01",
+        Feb: "02",
+        Mar: "03",
+        Apr: "04",
+        May: "05",
+        Jun: "06",
+        Jul: "07",
+        Aug: "08",
+        Sep: "09",
+        Oct: "10",
+        Nov: "11",
+        Dec: "12",
+    };
+    for (let i = 0; i < questions.length; i++) {
+        let question = questions[i];
+        let createdAt = question.createdAt.toString();
+        let parts = createdAt.split(" ");
+        question.formattedDate =
+            months[parts[1]] + "/" + parts[2] + "/" + parts[3];
+    }
+}
 
 router.get(
     "/",
@@ -66,7 +91,8 @@ router.get(
 
         addVoteCount(questions);
         addAnswerCount(questions);
-        convertDate(questions)
+        convertDate(questions);
+        trimContent(questions);
         // console.log(questions);
         res.render("index", { questions });
     })
