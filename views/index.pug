@@ -16,3 +16,10 @@ block content
       span Welcome #{user.username}!
       form(action='/logout' method='post')
         button(type='submit') Logout
+          ul
+    each question in questions
+      li= question.title
+      li= question.User.username
+      li= question.createdAt
+      li= question.voteCount
+      li= question.answerCounts
