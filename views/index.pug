@@ -10,10 +10,22 @@ block content
   include top-nav
   include side-nav
   div.main
-    ul
+    ul 
       each question in questions
-        li= question.title
-        li= question.User.username
-        li= question.formattedDate
-        li= question.voteCount
-        li= question.answerCount
+        div.questions-block
+          div.questions-block__answers
+            li.questions-block__answers__count= question.answerCounts
+            li= question.answerCount
+            li Answers
+          div.question-block__votes
+            div.up-arrow 
+            li.question-block__votes__vote-count= question.voteCount
+            div.down-arrow
+          div.questions-block__content
+            li.question-block__content__title= question.title
+            li.question-block__content__question= question.content
+          div.questions-block__user-info
+            li= question.User.username
+            li= question.formattedDate
+        //- each vote in question.Vote
+        //-   li= vote.isDownvote
