@@ -4,7 +4,10 @@ const { check, validationResult } = require("express-validator");
 
 const { csrfProtection, asyncHandler } = require("../utils");
 const db = require("../db/models");
+const { Answer, Comment, Question, User, Vote, sequelize } = db;
 const { loginUser, logoutUser } = require("../auth");
+//const {addVoteCount,addAnswerCount,convertDate} = require("./index")
+
 
 var router = express.Router();
 
@@ -65,6 +68,59 @@ const loginValidators = [
         .exists({ checkFalsy: true })
         .withMessage("Please provide a value for Password"),
 ];
+
+// helperFunctions
+
+const addVoteCount = (questions) => {
+    for (let i = 0; i < questions.length; i++) {
+        let voteCount = 0;
+        let question = questions[i];
+        for (let j = 0; j < question.Votes.length; j++) {
+            let vote = question.Votes[j];
+            if (vote.isDownvote) {
+                voteCount--;
+            } else {
+                voteCount++;
+            }
+        }
+        question.voteCount = voteCount;
+    }
+};
+
+const addAnswerCount = (questions) => {
+    for (let i = 0; i < questions.length; i++) {
+        let answerCount = 0;
+        let question = questions[i];
+        for (let j = 0; j < question.Answers.length; j++) {
+            answerCount++;
+        }
+        question.answerCount = answerCount;
+    }
+};
+
+function convertDate(questions) {
+    let months = {
+        Jan: "01",
+        Feb: "02",
+        Mar: "03",
+        Apr: "04",
+        May: "05",
+        Jun: "06",
+        Jul: "07",
+        Aug: "08",
+        Sep: "09",
+        Oct: "10",
+        Nov: "11",
+        Dec: "12",
+    };
+    for (let i = 0; i < questions.length; i++) {
+        let question = questions[i];
+        let createdAt = question.createdAt.toString();
+        let parts = createdAt.split(" ");
+        question.formattedDate =
+            months[parts[1]] + "/" + parts[2] + "/" + parts[3];
+    }
+}
 //Routes
 
 //User Registration
@@ -217,4 +273,40 @@ router.get('/demo', asyncHandler(async (req, res, next) => {
     loginUser(req, res, demoUser)
     return res.redirect("/")
 }))
+/* ************************************************************************************** */
+// My Questions
+/* ************************************************************************************** */
+router.get('/users/:id/questions', asyncHandler(async (req, res) => {
+    if (!res.locals.authenticated) {
+        return res.redirect("/login")
+    }
+    else if(parseInt(req.params.id, 10)!== res.locals.user.id){
+        res.redirect("/")
+    }
+        else {
+        const questions = await db.Question.findAll({
+            where: { userId: res.locals.user.id },
+            include: [
+                { model: User, as: "User", attributes: ["username"] },
+                { model: Vote, as: "Votes", attributes: ["isDownvote"] },
+                {
+                    model: Answer,
+                    as: "Answers",
+                    attributes: [
+                        [Answer.sequelize.fn("COUNT", "id"), "answerCount"],
+                    ],
+                },
+            ],
+            order: [["createdAt", "DESC"]],
+            attributes: ["title", "content", "createdAt", "id"],
+            group: ["Question.id", "User.id", "Votes.id", "Answers.id"],
+        });
+        addVoteCount(questions);
+        addAnswerCount(questions);
+        convertDate(questions);
+        res.render("myQuestion", { questions });
+    }
+}));
+
+
 module.exports = router;
