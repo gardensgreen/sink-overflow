@@ -34,11 +34,15 @@ const addAnswerCount = (questions) => {
     }
 };
 /* GET home page. */
-function convertDate(d){
- var parts = d.split(" ");
- var months = {Jan: "01",Feb: "02",Mar: "03",Apr: "04",May: "05",Jun: "06",Jul: "07",Aug: "08",Sep: "09",Oct: "10",Nov: "11",Dec: "12"};
- return parts[3]+"/"+months[parts[1]]+"/"+parts[2];
-}
+function convertDate(questions) {
+  let months = { Jan: "01", Feb: "02", Mar: "03", Apr: "04", May: "05", Jun: "06", Jul: "07", Aug: "08", Sep: "09", Oct: "10", Nov: "11", Dec: "12" };
+  for (let i = 0; i < questions.length; i++) {
+    let question = questions[i]
+    let createdAt = question.createdAt.toString()
+    let parts = createdAt.split(" ")
+    question.formattedDate = months[parts[1]] + "/" + parts[2] + "/" + parts[3];
+  }
+  }
 
 router.get(
     "/",
@@ -62,6 +66,7 @@ router.get(
 
         addVoteCount(questions);
         addAnswerCount(questions);
+        convertDate(questions)
         // console.log(questions);
         res.render("index", { questions });
     })

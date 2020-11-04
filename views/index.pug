@@ -14,6 +14,6 @@ block content
       each question in questions
         li= question.title
         li= question.User.username
-        li= question.createdAt
+        li= question.formattedDate
         li= question.voteCount
         li= question.answerCount
