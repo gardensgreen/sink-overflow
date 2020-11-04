@@ -37,7 +37,7 @@ body {
 }
 
 .questions-block__user-info {
-    align-items: center;
+    align-items: flex-end;
     display: flex;
     flex-direction: column;
     justify-content: center;
