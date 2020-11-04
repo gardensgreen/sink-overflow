@@ -44,6 +44,13 @@ const addAnswerCount = (questions) => {
         question.answerCount = answerCount;
     }
 };
+
+const addQuestionLink = (questions) => {
+    for (let i = 0; i < questions.length; i++) {
+        questions[i].link = "/questions/" + questions[i].id;
+    }
+};
+
 /* GET home page. */
 function convertDate(questions) {
     let months = {
@@ -85,7 +92,7 @@ router.get(
                 },
             ],
             order: [["createdAt", "DESC"]],
-            attributes: ["title", "content", "createdAt"],
+            attributes: ["id", "title", "content", "createdAt"],
             group: ["Question.id", "User.id", "Votes.id", "Answers.id"],
         });
 
@@ -93,6 +100,7 @@ router.get(
         addAnswerCount(questions);
         convertDate(questions);
         trimContent(questions);
+        addQuestionLink(questions);
         // console.log(questions);
         res.render("index", { questions });
     })
