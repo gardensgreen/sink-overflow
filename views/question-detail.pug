@@ -1,0 +1,24 @@
+extends layout
+
+append head
+  //- add page specific styles by appending to the head
+  link(rel="stylesheet" href="/stylesheets/question-detail.css")
+  //- add page specific js
+
+
+block content
+  include top-nav
+  include side-nav
+  div.main
+    h1= question.title
+    p= question.content
+    p Vote Count #{question.voteCount}
+    p Answer Count #{question.answerCount}
+    p Created At #{question.formattedDate}
+
+    each answer in question.Answers
+        ul
+            li= answer.content
+            li= answer.author
+            li Vote Count #{answer.voteCount}
+            li Created At #{answer.formattedDate}
