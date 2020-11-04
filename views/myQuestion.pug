@@ -2,9 +2,11 @@ extends layout
 
 append head
   //- add page specific styles by appending to the head
-  link(rel="stylesheet" href="/stylesheets/index.css")
+  link(rel="stylesheet" href="/stylesheets/myQuestions.css")
   //- add page specific js
-  script(src="/javascripts/index.js" type="module" defer)
+  //- script(src="/javascripts/index.js" type="module" defer)
+  script(src="/javascripts/myQuestion.js" type="module" defer)
+
 
 block content
   include top-nav
@@ -12,7 +14,7 @@ block content
   div.main
     ul
       each question in questions
-        a(href=question.link)
+        a(href=`/questions/${question.id}`)
           div.questions-block
             div.questions-block__answers
               li.questions-block__answers__count= question.answerCounts
@@ -24,9 +26,7 @@ block content
               div.down-arrow
             div.questions-block__content
               li.question-block__content__title= question.title
-              li.question-block__content__question= question.trimmedContent
+              li.question-block__content__question= question.content
             div.questions-block__user-info
               li= question.User.username
               li= question.formattedDate
-        //- each vote in question.Vote
-        //-   li= vote.isDownvote
