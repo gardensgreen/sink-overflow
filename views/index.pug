@@ -14,7 +14,7 @@ block content
       li= question.title
       li= question.User.username
       li= question.createdAt
-      each vote in question.Votes
-        li= vote.isDownvote
+      li= question.voteCount
+      li= question.answerCounts
       //- each vote in question.Vote
       //-   li= vote.isDownvote
