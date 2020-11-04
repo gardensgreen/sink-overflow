@@ -2,6 +2,7 @@ extends layout.pug
 include utils.pug
 
 append head
+  script(src="/javascripts/demo.js" type="module" async defer)  
   link(rel="stylesheet" href="/stylesheets/login.css")
 block content
   div.form-container
@@ -14,6 +15,7 @@ block content
             +field('password', null, 'Password', 'password')
             div.form-container-elements__actions-container
                 button.form-container-elements__button(type='submit') Login
+                button.form-container-elements__button#button() Continue as Demo User
                 a.form-container-elements__cancel(href='/') Cancel
         div
          p: a(href='/register') Don't have an account

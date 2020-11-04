@@ -4,7 +4,7 @@ const { check, validationResult } = require("express-validator");
 
 const { csrfProtection, asyncHandler } = require("../utils");
 const db = require("../db/models");
-const { loginUser } = require("../auth");
+const { loginUser, logoutUser } = require("../auth");
 
 var router = express.Router();
 
@@ -70,12 +70,16 @@ const loginValidators = [
 //User Registration
 /* ************************************************************************************** */
 router.get("/register", csrfProtection, (req, res) => {
-    const user = db.User.build();
-    res.render("register", {
-        title: "Register",
-        user,
-        csrfToken: req.csrfToken(),
-    });
+    if (!res.locals.authenticated) {
+        const user = db.User.build();
+        res.render("register", {
+            title: "Register",
+            user,
+            csrfToken: req.csrfToken(),
+        });
+    } else {
+        res.redirect("/");
+    }
 });
 
 router.post(
@@ -130,16 +134,20 @@ router.post(
 //User Login
 /* ************************************************************************************** */
 router.get("/login", csrfProtection, (req, res) => {
-    res.render("login", {
-        csrfToken: req.csrfToken(),
-    });
+    if (!res.locals.authenticated) {
+        res.render("login", {
+            csrfToken: req.csrfToken(),
+        });
+    } else {
+        res.redirect("/");
+    }
 });
 
 router.post(
     "/login",
     csrfProtection,
     loginValidators,
-    asyncHandler(async (req, res) => {
+    asyncHandler(async (req, res, next) => {
         const { email, password } = req.body;
 
         let errors = [];
@@ -159,7 +167,15 @@ router.post(
 
                 if (passwordMatch) {
                     loginUser(req, res, user);
-                    return res.redirect("/");
+                    return req.session.save((err) => {
+                        if (!err) {
+                            console.log("no error");
+                            return res.redirect("/");
+                        } else {
+                            console.log(err);
+                            next(err);
+                        }
+                    });
                 }
             }
 
@@ -178,5 +194,27 @@ router.post(
         });
     })
 );
-
+/* ************************************************************************************** */
+// User Logout
+/* ************************************************************************************** */
+router.post("/logout", (req, res, next) => {
+    logoutUser(req);
+    return req.session.save((err) => {
+        if (!err) {
+            return res.redirect("/");
+        } else {
+            next(err);
+        }
+    });
+});
+/* ************************************************************************************** */
+// Demo User
+/* ************************************************************************************** */
+router.get('/demo', asyncHandler(async (req, res, next) => {
+    const demoUser = await db.User.findOne({
+            where: {email: 'demo@demo.com'}
+    })
+    loginUser(req, res, demoUser)
+    return res.redirect("/")
+}))
 module.exports = router;

@@ -1,0 +1,20 @@
+append head
+  //- add page specific styles by appending to the head
+  link(rel="stylesheet" href="/stylesheets/top-nav.css")
+
+block content
+    nav.navbar-top
+        ul.navbar-nav-top
+            li.nav-item
+                .logo-container
+                    h1 Sink Overflow
+            li.nav-item
+                .search-container
+                    input(type="text" name="search" placeholder="Search for questions")
+            li.nav-item
+                .logout-login-container
+                    if authenticated
+                        form(action='/logout' method='post')
+                            button.logout-btn(type='submit') Logout
+                    else
+                        a.login(href="/login") Login
