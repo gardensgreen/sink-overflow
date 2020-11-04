@@ -16,7 +16,7 @@ ul li {
 
 .questions-block {
     background-color: #dfe7f0;
-    margin: 25px 150px;
+    margin: 25px 175px;
     display: flex;
     border-radius: 10px;
     transition: background-color 600ms ease;
@@ -65,6 +65,10 @@ ul li {
 }
 
 .edit-question:hover {
+    background-color: #02b8f2;
+}
+
+.delete-question:hover {
     background-color: #02b8f2;
 }
 
