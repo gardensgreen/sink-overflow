@@ -32,7 +32,6 @@ router.get(
             let question = questions[i];
             for (let j = 0; j < question.Votes.length; j++) {
                 let vote = question.Votes[j];
-                console.log(vote);
                 if (vote.isDownvote) {
                     voteCount--;
                 } else {
