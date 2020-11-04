@@ -22,6 +22,17 @@ const addVoteCount = (questions) => {
         question.voteCount = voteCount;
     }
 };
+
+const addAnswerCount = (questions) => {
+    for (let i = 0; i < questions.length; i++) {
+        let answerCount = 0;
+        let question = questions[i];
+        for (let j = 0; j < question.Answers.length; j++) {
+            answerCount++;
+        }
+        question.answerCount = answerCount;
+    }
+};
 /* GET home page. */
 router.get(
     "/",
@@ -44,6 +55,7 @@ router.get(
         });
 
         addVoteCount(questions);
+        addAnswerCount(questions);
         // console.log(questions);
         res.render("index", { questions });
     })
