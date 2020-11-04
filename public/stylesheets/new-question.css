@@ -1,6 +1,11 @@
 textarea {
     resize: none;
 }
+h2 {
+    font-size: 20px;
+    color: #0099ff;
+    margin-bottom: 10px;
+}
 
 label {
     padding: 10px;
@@ -53,4 +58,41 @@ label {
     padding: 10px;
     margin: 5px;
     border: none;
+}
+
+.form-elements__buttons__submit {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: #9dd6fc;
+    color: #ecf5ff;
+}
+
+.form-elements__buttons__cancel {
+    margin: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: #9dd6fc;
+    color: #ecf5ff;
+}
+
+label {
+    color: #0099ff;
+}
+
+.form-container__error-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    margin-bottom: 10px;
+    border-radius: 10px;
+    border: 1px solid #ff7d7d;
+    color: #ff0000;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 20px
+    /* margin: 10px auto; */
+    /* padding: 5px; */
 }

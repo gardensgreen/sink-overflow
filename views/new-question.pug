@@ -10,9 +10,9 @@ block content
     include top-nav
     include side-nav
     div.main
-        +validationErrorSummary(errors)
         div.form-elements
             h2 New question
+            +validationErrorSummary(errors)
             form(method="post" action="/questions")
                 input(type="hidden" name="_csrf" value=csrfToken)
                 div.form-elements__title
@@ -22,5 +22,5 @@ block content
                     label(for="content") Question:
                     textarea.form-elements__content__input(name="content" maxlength=255)
                 div.form-elements__buttons
-                    input(type="submit" value="Submit")
-                    button(type="button") Cancel
+                    input.form-elements__buttons__submit(type="submit" value="Submit")
+                    button.form-elements__buttons__cancel(type="button") Cancel
