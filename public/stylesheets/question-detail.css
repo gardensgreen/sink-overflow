@@ -33,7 +33,7 @@ ul li {
     transition: background-color 0.5s;
     transition-timing-function: ease-in-out;
     text-decoration: none;
-    margin-left: 150px;
+    margin-left: 175px;
 }
 
 .actions {
@@ -44,7 +44,7 @@ ul li {
 .actions-actions {
     display: flex;
     flex-direction: row;
-    margin-right: 150px;
+    margin-right: 175px;
 }
 .edit-question {
     padding: 10px 30px;
