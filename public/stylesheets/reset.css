@@ -1,6 +1,7 @@
 body {
     padding: 50px;
-    font: 14px "Montserrat", "Montserrat", "Montserrat", "Montserrat";
+    font: 14px "Montserrat", sans-serif;
+    background-color: #ecf5ff;
 }
 
 a {

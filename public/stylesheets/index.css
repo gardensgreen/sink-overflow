@@ -2,8 +2,10 @@ h1 {
     color: #555555;
 }
 
-main {
-    margin-top: 5rem;
-    margin-left: 5rem;
-    padding: 1rem;
+.main {
+    padding-top: 6rem;
+    margin-left: 6rem;
+    padding-left: 1rem;
+
+    /* padding: 1rem; */
 }
