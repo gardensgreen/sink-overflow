@@ -207,5 +207,14 @@ router.post("/logout", (req, res, next) => {
         }
     });
 });
-
+/* ************************************************************************************** */
+// Demo User
+/* ************************************************************************************** */
+router.get('/demo', asyncHandler(async (req, res, next) => {
+    const demoUser = await db.User.findOne({
+            where: {email: 'demo@demo.com'}
+    })
+    loginUser(req, res, demoUser)
+    return res.redirect("/")
+}))
 module.exports = router;
