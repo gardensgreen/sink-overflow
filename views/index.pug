@@ -12,20 +12,21 @@ block content
   div.main
     ul
       each question in questions
-        div.questions-block
-          div.questions-block__answers
-            li.questions-block__answers__count= question.answerCounts
-            li= question.answerCount
-            li Answers
-          div.question-block__votes
-            div.up-arrow
-            li.question-block__votes__vote-count= question.voteCount
-            div.down-arrow
-          div.questions-block__content
-            li.question-block__content__title= question.title
-            li.question-block__content__question= question.trimmedContent
-          div.questions-block__user-info
-            li= question.User.username
-            li= question.formattedDate
+        a(href=question.link)
+          div.questions-block
+            div.questions-block__answers
+              li.questions-block__answers__count= question.answerCounts
+              li= question.answerCount
+              li Answers
+            div.question-block__votes
+              div.up-arrow
+              li.question-block__votes__vote-count= question.voteCount
+              div.down-arrow
+            div.questions-block__content
+              li.question-block__content__title= question.title
+              li.question-block__content__question= question.trimmedContent
+            div.questions-block__user-info
+              li= question.User.username
+              li= question.formattedDate
         //- each vote in question.Vote
         //-   li= vote.isDownvote
