@@ -96,16 +96,18 @@ ul li {
     justify-content: center;
     margin: 10px;
     padding: 10px;
+    width: 100%;
 }
 .questions-block__content {
     display: flex;
     flex-direction: column;
     margin: 10px;
     padding: 10px;
+    width: 100%;
 }
 
 .questions-block__user-info {
-    align-items: center;
+    align-items: flex-end;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -114,7 +116,7 @@ ul li {
 }
 
 .answer-block__user-info {
-    align-items: center;
+    align-items: flex-end;
     display: flex;
     flex-direction: column;
     justify-content: center;

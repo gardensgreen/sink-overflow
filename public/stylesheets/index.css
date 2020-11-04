@@ -21,7 +21,7 @@ body {
 
 .questions-block {
     background-color: #dfe7f0;
-    margin: 50px 120px;
+    margin: 25px 175px;
     display: flex;
     border-radius: 10px;
     transition: background-color 600ms ease;
@@ -32,13 +32,15 @@ body {
     flex-direction: column;
     margin: 10px;
     padding: 10px;
+    width: 100%;
 }
 
 .questions-block__user-info {
-    align-items: center;
+    align-items: flex-end;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    text-align: right;
     padding: 30px 10px;
     margin-bottom: 20px;
 }
