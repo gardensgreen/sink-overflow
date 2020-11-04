@@ -298,7 +298,7 @@ router.get('/users/:id/questions', asyncHandler(async (req, res) => {
                 },
             ],
             order: [["createdAt", "DESC"]],
-            attributes: ["title", "content", "createdAt"],
+            attributes: ["title", "content", "createdAt", "id"],
             group: ["Question.id", "User.id", "Votes.id", "Answers.id"],
         });
         addVoteCount(questions);
