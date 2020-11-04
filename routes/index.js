@@ -6,6 +6,33 @@ const db = require("../db/models");
 const { Answer, Comment, Question, User, Vote, sequelize } = db;
 const { asyncHandler } = require("../utils");
 
+//Helper Functions
+const addVoteCount = (questions) => {
+    for (let i = 0; i < questions.length; i++) {
+        let voteCount = 0;
+        let question = questions[i];
+        for (let j = 0; j < question.Votes.length; j++) {
+            let vote = question.Votes[j];
+            if (vote.isDownvote) {
+                voteCount--;
+            } else {
+                voteCount++;
+            }
+        }
+        question.voteCount = voteCount;
+    }
+};
+
+const addAnswerCount = (questions) => {
+    for (let i = 0; i < questions.length; i++) {
+        let answerCount = 0;
+        let question = questions[i];
+        for (let j = 0; j < question.Answers.length; j++) {
+            answerCount++;
+        }
+        question.answerCount = answerCount;
+    }
+};
 /* GET home page. */
 router.get(
     "/",
@@ -27,20 +54,8 @@ router.get(
             group: ["Question.id", "User.id", "Votes.id", "Answers.id"],
         });
 
-        for (let i = 0; i < questions.length; i++) {
-            let voteCount = 0;
-            let question = questions[i];
-            for (let j = 0; j < question.Votes.length; j++) {
-                let vote = question.Votes[j];
-                if (vote.isDownvote) {
-                    voteCount--;
-                } else {
-                    voteCount++;
-                }
-            }
-            question.voteCount = voteCount;
-        }
-
+        addVoteCount(questions);
+        addAnswerCount(questions);
         // console.log(questions);
         res.render("index", { questions });
     })
