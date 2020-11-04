@@ -26,6 +26,6 @@ block content
             li.question-block__content__question= question.content
           div.questions-block__user-info
             li= question.User.username
-            li= question.createdAt
+            li= question.formattedDate
         //- each vote in question.Vote
         //-   li= vote.isDownvote

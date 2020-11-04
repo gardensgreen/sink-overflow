@@ -17,3 +17,84 @@ block content
                 a.form-container-elements__cancel(href='/') Cancel
         div
           p: a(href='/register') Don't have an account
+const express = require("express");
+const router = express.Router();
+const db = require("../db/models");
+const {Question, User, Vote, Answer} = db
+const { requireAuth } = require('../auth');
+const { asyncHandler, csrfProtection } = require("../utils");
+
+/* GET home page. */
+
+router.get('/', asyncHandler(async (req, res, next) => {
+  const questions = await Question.findAll({
+    include: [
+      { model: User, as: "User", attributes: ["username"] },
+      { model: Vote, attributes: ["isDownvote"] },
+      { model: Answer, attributes: ["content"] },
+    ],
+      order: [["createdAt", "DESC"]],
+      attributes: ["title", "content", "createdAt","id"]
+  })
+  for (let i = 0; i < questions.length; i++) {
+    count = await allVoteCount(questions[i].id)
+    console.log(count)
+  }
+    res.render('index', { questions, count });
+  
+}));
+
+async function allVoteCount(questionId) {
+  let votes = await Vote.findAll({where: questionId})
+  let count = 0
+  for (let i = 0; i < votes.length; i++) {
+    if (votes[i].isDownvote) {
+      count--
+    } else {
+      count++
+    }
+    return count
+  }
+}
+  
+module.exports = router;
+
+extends layout
+
+append head
+  //- add page specific styles by appending to the head
+  link(rel="stylesheet" href="/stylesheets/index.css")
+  //- add page specific js
+  script(src="/javascripts/index.js" type="module" defer)
+
+block content
+  include nav
+  main
+    h1= title
+    p Welcome to your Project Skeleton
+
+    if user
+      span Welcome #{user.username}!
+      form(action='/logout' method='post')
+        button(type='submit') Logout
+    ul
+      br
+      br
+      br
+      each question in questions
+        br
+        div Title
+          ul= question.title
+        br
+        div Question
+          ul= question.content
+        br
+        div Username
+          ul= question.User.username
+        br
+        div CreatedAt
+          ul= question.createdAt
+        br
+        div Vote Count
+          each vote in count
+            ul= vote

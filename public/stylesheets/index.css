@@ -47,7 +47,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin-bottom: 25px;
+    margin-bottom: 15px;
 } 
 
 .questions-block__answers {
