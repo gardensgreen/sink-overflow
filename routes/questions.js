@@ -118,6 +118,13 @@ const questionValidators = [
         .withMessage("The question must be no longer than 255 characters long"),
 ];
 
+const answerValidators = [
+    check("content")
+        .exists({ checkFalsy: true })
+        .withMessage("Please enter an answer")
+        .isLength({ max: 255 })
+        .withMessage("The answer must be no longer than 255 characters long"),
+];
 /* ********************************************************************************************************************/
 
 //Routes
@@ -208,6 +215,7 @@ router.get(
                     model: db.Answer,
                     as: "Answers",
                     include: { model: db.Vote },
+                    order: [["createdAt"]],
                 },
             ],
         });
@@ -236,11 +244,64 @@ router.get(
             const question = await db.Question.findByPk(questionId);
             res.render("new-answer", {
                 question,
-                title: "New Answer",
+
                 csrfToken: req.csrfToken(),
             });
         } else {
             res.redirect("/login");
+        }
+    })
+);
+
+//Create an answer that is associated to the question
+router.post(
+    "/:id(\\d+)/answers",
+    csrfProtection,
+    answerValidators,
+    asyncHandler(async (req, res, next) => {
+        const questionId = parseInt(req.params.id, 10);
+        const { content } = req.body;
+        const userId = res.locals.user.id;
+
+        const answer = db.Answer.build({
+            content,
+            userId,
+            questionId,
+        });
+
+        // console.log(title);
+        const validatorErrors = validationResult(req);
+        try {
+            if (validatorErrors.isEmpty()) {
+                await answer.save();
+                res.redirect(`/questions/${questionId}`);
+            } else {
+                const errors = validatorErrors
+                    .array()
+                    .map((error) => error.msg);
+                const question = await db.Question.findByPk(questionId);
+                res.render("new-answer", {
+                    content,
+                    errors,
+                    question,
+                    csrfToken: req.csrfToken(),
+                });
+            }
+        } catch (err) {
+            if (
+                err.name === "SequelizeValidationError" ||
+                err.name === "SequelizeUniqueConstraintError"
+            ) {
+                const errors = err.errors.map((error) => error.message);
+                res.render("new-answer", {
+                    title: "New Answer",
+                    question,
+                    errors,
+                    csrfToken: req.csrfToken(),
+                });
+            } else {
+                next(err);
+            }
         }
     })
 );

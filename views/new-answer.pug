@@ -4,7 +4,7 @@ include utils.pug
 
 append head
   script(src="/javascripts/demo.js" type="module" async defer)
-  link(rel="stylesheet" href="/stylesheets/new-question.css")
+  link(rel="stylesheet" href="/stylesheets/new-answer.css")
 
 block content
     include top-nav
@@ -16,7 +16,7 @@ block content
             .question-container
                 h3.question-title=question.title
                 p.question-content=question.content
-            form(method="post" action="/questions")
+            form(method="post" action=`/questions/${question.id}/answers`)
                 input(type="hidden" name="_csrf" value=csrfToken)
                 div.form-elements__content
                     label(for="content") Answer:
