@@ -157,7 +157,42 @@ router.post(
 /* ********************************************************************************************************************/
 //Edit Answers
 /* ********************************************************************************************************************/
+router.get(
+    "/:id/edit",
+    csrfProtection,
+    asyncHandler(async (req, res) => {
+        const answerId = parseInt(req.params.id, 10);
+        const answer = await db.Answer.findByPk(questionId);
+        if (res.locals.authenticated) {
+            res.render("edit-answer", {
+                answer,
+                csrfToken: req.csrfToken(),
+            });
+        } else {
+            res.redirect("/login");
+        }
+    })
 
+);
+router.post(
+  '/:id',
+    csrfProtection,
+    questionValidators,
+  asyncHandler(async (req, res, next) => {
+    const { title, content } = req.body;
+    // const userId = res.locals.user.id;
+    const answerId = parseInt(req.params.id, 10);
 
+    const answer = await db.Answer.findByPk(answerId)
+    if (answer) {
+      await answer.update({ content: content })
+      res.redirect(`/questions/${question.id}`);
+    } else {
+      next(questionNotFoundError(answerId));
+    }
+  }))
+/* ********************************************************************************************************************/
+//
+/* ********************************************************************************************************************/
 
 module.exports = router;
