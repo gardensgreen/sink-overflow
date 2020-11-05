@@ -93,3 +93,9 @@ ul li {
 p a {
     color: #0099ff;
 }
+
+.logo {
+    size: 80%;
+    margin-top: -10px;
+    margin-bottom: -10px;
+}

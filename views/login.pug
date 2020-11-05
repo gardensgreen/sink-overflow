@@ -6,7 +6,7 @@ append head
   link(rel="stylesheet" href="/stylesheets/login.css")
 block content
   div.form-container
-        h1.form-container__header Login
+        img.logo(src="../Logo-02.svg", alt="logo")
         div.form-container__elements
         +validationErrorSummary(errors)
         form(action='/login' method='post')
