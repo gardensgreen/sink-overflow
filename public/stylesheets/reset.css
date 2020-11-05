@@ -44,3 +44,46 @@ input,
 button {
     font: 14px "Montserrat", "Montserrat", "Montserrat", "Montserrat";
 }
+
+.questions-block {
+    background-color: #dfe7f0;
+    margin: 25px 175px;
+    display: flex;
+    border-radius: 10px;
+    transition: background-color 600ms ease;
+}
+
+a {
+    text-decoration: none;
+}
+
+.main {
+    padding-top: 6rem;
+    margin-left: 6rem;
+    padding-left: 1rem;
+
+    /* padding: 1rem; */
+}
+
+ul {
+    list-style: none;
+}
+
+.question-block__content__title {
+    font-weight: bold;
+    font-size: 16pt;
+    color: #0099ff;
+}
+
+.question-block__content__question {
+    font-size: 11pt;
+    color: #595959;
+}
+
+.questions-block__content {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    padding: 10px;
+    width: 100%;
+}
