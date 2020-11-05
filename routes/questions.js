@@ -75,6 +75,12 @@ const convertDate = (question) => {
     let createdAt = question.createdAt.toString();
     let parts = createdAt.split(" ");
     question.formattedDate = months[parts[1]] + "/" + parts[2] + "/" + parts[3];
+}
+const questionNotFoundError = (id) => {
+  const err = Error(`Question with id of ${id} could not be found.`);
+  err.title = "Question not found.";
+  err.status = 404;
+  return err;
 };
 
 const convertDateAnswers = (answers) => {
@@ -234,6 +240,19 @@ router.get(
 );
 /* ********************************************************************************************************************/
 
+router.post('/:id/delete',
+    asyncHandler(async (req, res, next) => {
+        const questionId = parseInt(req.params.id, 10);
+        const question = await db.Question.findByPk(questionId)
+        
+        if (question) {
+            await question.destroy()
+            res.redirect('/')
+        } else {
+            next(questionNotFoundError(questionId));
+        } 
+}))
+
 //Get Answer form for question
 router.get(
     "/:id(\\d+)/answers/new",
@@ -244,7 +263,6 @@ router.get(
             const question = await db.Question.findByPk(questionId);
             res.render("new-answer", {
                 question,
-
                 csrfToken: req.csrfToken(),
             });
         } else {
@@ -252,6 +270,7 @@ router.get(
         }
     })
 );
+            
 
 //Create an answer that is associated to the question
 router.post(
