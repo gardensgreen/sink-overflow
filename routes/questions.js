@@ -259,17 +259,38 @@ router.post(
 /* ********************************************************************************************************************/
 // Edit Question
 /* ********************************************************************************************************************/
+router.get(
+    "/:id/edit",
+    csrfProtection,
+    asyncHandler(async (req, res) => {
+        const questionId = parseInt(req.params.id, 10);
+        const question = await db.Question.findByPk(questionId);
+        console.log(question)
+        if (res.locals.authenticated) {
+            res.render("edit-question", {
+                question,
+                csrfToken: req.csrfToken(),
+            });
+        } else {
+            res.redirect("/login");
+        }
+    })
+    
+);
 
 router.post(
-    '/:id/edit',
+    '/:id',
     csrfProtection,
     questionValidators,
     asyncHandler(async (req, res, next) => {
         const { title, content } = req.body;
+        const userId = res.locals.user.id;
         const questionId = parseInt(req.params.id, 10);
+        
         const question = await db.Question.findByPk(questionId)
         if (question) {
-        await question.update({ title: title, content: content });
+            await question.update({ title: title, content: content })
+                res.redirect(`/questions/${question.id}`);
     } else {
         next(questionNotFoundError(questionId));
     }
