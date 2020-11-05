@@ -23,10 +23,15 @@
 
 .logo-container {
     margin-left: 1rem;
+    padding: 10px;
+    /* background-image: url(../Logo-02.svg); */
+    /* size: 100%; */
 }
 
-.logo-container h1 {
-    color: #0099ff;
+.logo {
+    size: 100%;
+    width: 280px;
+    height: 80px;
 }
 
 .search-container input {
