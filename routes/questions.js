@@ -239,6 +239,8 @@ router.get(
     })
 );
 /* ********************************************************************************************************************/
+// Delete Question
+/* ********************************************************************************************************************/
 
 router.post(
     "/:id/delete",
@@ -254,6 +256,22 @@ router.post(
         }
     })
 );
+/* ********************************************************************************************************************/
+// Edit Question
+/* ********************************************************************************************************************/
+
+ router.put('/:id/edit',
+//   add errors from post and handleValidationErrors,
+  asyncHandler(async (req, res, next) => {
+    const questionId = parseInt(req.params.id, 10);
+    const question = await db.Question.findByPk(questionId)
+    if (question) {
+      await question.update({ title: req.body.title, content: req.body.content });
+      res.json({ question });
+    } else {
+      next(questionNotFoundError(questionId));
+    }
+ }))
 
 //Get Answer form for question
 router.get(
