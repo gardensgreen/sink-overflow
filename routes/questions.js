@@ -52,7 +52,7 @@ const addAnswerAuthor = async (answers) => {
 
         const author = user.username;
         answer.author = author;
-        console.log(answer);
+        // console.log(answer);
     }
 };
 
@@ -75,12 +75,12 @@ const convertDate = (question) => {
     let createdAt = question.createdAt.toString();
     let parts = createdAt.split(" ");
     question.formattedDate = months[parts[1]] + "/" + parts[2] + "/" + parts[3];
-}
+};
 const questionNotFoundError = (id) => {
-  const err = Error(`Question with id of ${id} could not be found.`);
-  err.title = "Question not found.";
-  err.status = 404;
-  return err;
+    const err = Error(`Question with id of ${id} could not be found.`);
+    err.title = "Question not found.";
+    err.status = 404;
+    return err;
 };
 
 const convertDateAnswers = (answers) => {
@@ -220,7 +220,7 @@ router.get(
                 {
                     model: db.Answer,
                     as: "Answers",
-                    include: { model: db.Vote },
+                    include: [{ model: db.Vote }, { model: db.Comment }],
                     order: [["createdAt"]],
                 },
             ],
@@ -242,18 +242,20 @@ router.get(
 // Delete Question
 /* ********************************************************************************************************************/
 
-router.post('/:id/delete',
+router.post(
+    "/:id/delete",
     asyncHandler(async (req, res, next) => {
         const questionId = parseInt(req.params.id, 10);
-        const question = await db.Question.findByPk(questionId)
-        
+        const question = await db.Question.findByPk(questionId);
+
         if (question) {
-            await question.destroy()
-            res.redirect('/')
+            await question.destroy();
+            res.redirect("/");
         } else {
             next(questionNotFoundError(questionId));
-        } 
-    }))
+        }
+    })
+);
 /* ********************************************************************************************************************/
 // Edit Question
 /* ********************************************************************************************************************/
@@ -269,7 +271,7 @@ router.post('/:id/delete',
     } else {
       next(questionNotFoundError(questionId));
     }
-  }))
+ }))
 
 //Get Answer form for question
 router.get(
@@ -288,7 +290,6 @@ router.get(
         }
     })
 );
-            
 
 //Create an answer that is associated to the question
 router.post(
