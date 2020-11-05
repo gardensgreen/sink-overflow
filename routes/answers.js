@@ -162,7 +162,7 @@ router.get(
     csrfProtection,
     asyncHandler(async (req, res) => {
         const answerId = parseInt(req.params.id, 10);
-        const answer = await db.Answer.findByPk(questionId);
+        const answer = await db.Answer.findByPk(answerId);
         if (res.locals.authenticated) {
             res.render("edit-answer", {
                 answer,
@@ -186,7 +186,7 @@ router.post(
     const answer = await db.Answer.findByPk(answerId)
     if (answer) {
       await answer.update({ content: content })
-      res.redirect(`/questions/${question.id}`);
+      res.redirect(`/questions/${answer.questionId}`);
     } else {
       next(questionNotFoundError(answerId));
     }
