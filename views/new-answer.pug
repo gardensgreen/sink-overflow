@@ -1,0 +1,26 @@
+extends layout.pug
+
+include utils.pug
+
+append head
+  script(src="/javascripts/demo.js" type="module" async defer)
+  link(rel="stylesheet" href="/stylesheets/new-question.css")
+
+block content
+    include top-nav
+    include side-nav
+    div.main
+        div.form-elements
+            h2 New Answer
+            +validationErrorSummary(errors)
+            .question-container
+                h3.question-title=question.title
+                p.question-content=question.content
+            form(method="post" action="/questions")
+                input(type="hidden" name="_csrf" value=csrfToken)
+                div.form-elements__content
+                    label(for="content") Answer:
+                    textarea.form-elements__content__input(name="content" maxlength=255)
+                div.form-elements__buttons
+                    input.form-elements__buttons__submit(type="submit" value="Submit")
+                    button.form-elements__buttons__cancel(type="button") Cancel
