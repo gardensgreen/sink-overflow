@@ -258,16 +258,18 @@ router.post('/:id/delete',
 // Edit Question
 /* ********************************************************************************************************************/
 
- router.put('/:id/edit',
-//   add errors from post and handleValidationErrors,
-  asyncHandler(async (req, res, next) => {
-    const questionId = parseInt(req.params.id, 10);
-    const question = await db.Question.findByPk(questionId)
-    if (question) {
-      await question.update({ title: req.body.title, content: req.body.content });
-      res.json({ question });
+router.post(
+    '/:id/edit',
+    csrfProtection,
+    questionValidators,
+    asyncHandler(async (req, res, next) => {
+        const { title, content } = req.body;
+        const questionId = parseInt(req.params.id, 10);
+        const question = await db.Question.findByPk(questionId)
+        if (question) {
+        await question.update({ title: title, content: content });
     } else {
-      next(questionNotFoundError(questionId));
+        next(questionNotFoundError(questionId));
     }
   }))
 
