@@ -17,10 +17,10 @@ block content
                 input(type="hidden" name="_csrf" value=csrfToken)
                 div.form-elements__title
                     label(for="title") Title:
-                    input.form-elements__title__input(type="text" id="title" name="title" value= question.title )
+                    input.form-elements__title__input(required type="text" id="title" name="title" value= question.title )
                 div.form-elements__content
                     label(for="content") Question:
-                    textarea.form-elements__content__input(name="content" maxlength=255)= question.content
+                    textarea.form-elements__content__input(required name="content" maxlength=255)= question.content
                 div.form-elements__buttons
                     input.form-elements__buttons__submit(type="submit" value="Submit")
                     button.form-elements__buttons__cancel(type="button") Cancel

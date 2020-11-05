@@ -19,5 +19,5 @@ block content
         input(type="hidden" name='_csrf' value=csrfToken)
         div.form-comment
           label(for="comment") Comment:
-          textarea.comment-input(name="comment" maxlength=255)
+          textarea.comment-input(name="comment" maxlength=255 required)
           input.form-submit(type="submit" value='Submit')
