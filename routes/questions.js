@@ -138,6 +138,12 @@ function convertDate(question) {
     let parts = createdAt.split(" ");
     question.formattedDate = months[parts[1]] + "/" + parts[2] + "/" + parts[3];
 }
+const questionNotFoundError = (id) => {
+  const err = Error(`Question with id of ${id} could not be found.`);
+  err.title = "Question not found.";
+  err.status = 404;
+  return err;
+};
 
 function convertDateAnswers(answers) {
     let months = {
@@ -191,6 +197,21 @@ router.get(
         res.render("question-detail", { question });
     })
 );
+
+router.post('/:id/delete',
+    asyncHandler(async (req, res, next) => {
+        const questionId = parseInt(req.params.id, 10);
+        const question = await db.Question.findByPk(questionId)
+        
+        if (question) {
+            await question.destroy()
+            res.redirect('/')
+        } else {
+            next(questionNotFoundError(questionId));
+        } 
+    }))
+
+
 
 module.exports = router;
 
