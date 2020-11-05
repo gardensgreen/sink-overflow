@@ -22,14 +22,23 @@ ul li {
     transition: background-color 600ms ease;
 }
 
+.comment-block {
+    background-color: #f09d37a6;
+    margin: 25px 175px 25px 200px;
+    padding: 30px;
+    display: flex;
+    border-radius: 10px;
+    transition: background-color 600ms ease;
+}
+
 .add-answer {
     padding: 10px 30px;
 
     border-radius: 10px;
     border: none;
 
-    background-color: #9dd6fc;
-    color: #ecf5ff;
+    background-color: #dfe7f096;
+
     transition: background-color 0.5s;
     transition-timing-function: ease-in-out;
     text-decoration: none;
@@ -43,6 +52,20 @@ ul li {
     border: none;
 
     background-color: #f09d37a6;
+    color: #fff;
+    transition: background-color 0.5s;
+    transition-timing-function: ease-in-out;
+    text-decoration: none;
+    margin-left: 200px;
+}
+
+.add-comment-no {
+    padding: 10px 30px;
+
+    border-radius: 10px;
+    border: none;
+
+    background-color: #9dd6fc;
     color: #fff;
     transition: background-color 0.5s;
     transition-timing-function: ease-in-out;
@@ -68,6 +91,12 @@ ul li {
 
 .answer-actions-actions {
     display: flex;
+    flex-direction: row-reverse;
+    margin-right: 175px;
+}
+
+.answer-actions-actions-no {
+    display: flex;
     flex-direction: row;
     margin-right: 175px;
 }
@@ -78,8 +107,8 @@ ul li {
     border: none;
     margin-right: 0.5rem;
 
-    background-color: #9dd6fc;
-    color: #ecf5ff;
+    background-color: #dfe7f096;
+
     transition: background-color 0.5s;
     transition-timing-function: ease-in-out;
     text-decoration: none;
@@ -92,7 +121,7 @@ ul li {
     border: none;
     margin-right: 0.5rem;
 
-    background-color: #f09d37a6;
+    background-color: #9dd6fc;
     color: #fff;
     transition: background-color 0.5s;
     transition-timing-function: ease-in-out;
@@ -100,27 +129,30 @@ ul li {
 }
 
 .add-answer:hover {
-    background-color: #02b8f2;
+    background-color: #dfe7f0;
 }
 
 .add-comment:hover {
     background-color: #f09d37;
 }
 
-.edit-question:hover {
+.add-comment-no:hover {
     background-color: #02b8f2;
+}
+.edit-question:hover {
+    background-color: #dfe7f0;
 }
 
 .edit-answer:hover {
-    background-color: #f09d37;
-}
-
-.delete-question:hover {
     background-color: #02b8f2;
 }
 
+.delete-question:hover {
+    background-color: #dfe7f0;
+}
+
 .delete-answer:hover {
-    background-color: #f09d37;
+    background-color: #02b8f2;
 }
 
 .delete-question {
@@ -129,8 +161,8 @@ ul li {
     border-radius: 10px;
     border: none;
 
-    background-color: #9dd6fc;
-    color: #ecf5ff;
+    background-color: #dfe7f096;
+
     transition: background-color 0.5s;
     transition-timing-function: ease-in-out;
     text-decoration: none;
@@ -142,7 +174,7 @@ ul li {
     border-radius: 10px;
     border: none;
 
-    background-color: #f09d37a6;
+    background-color: #9dd6fc;
     color: #fff;
     transition: background-color 0.5s;
     transition-timing-function: ease-in-out;
@@ -150,10 +182,11 @@ ul li {
 }
 
 .answer-block {
-    background-color: #f09d37a6;
-    border: 0px solid #f09d37;
+    background-color: #02b8f2;
+    color: white;
     margin: 25px 175px;
     display: flex;
+
     border-radius: 10px;
     transition: background-color 600ms ease;
 }

@@ -220,7 +220,7 @@ router.get(
                 {
                     model: db.Answer,
                     as: "Answers",
-                    include: { model: db.Vote },
+                    include: [{ model: db.Vote }, { model: db.Comment }],
                     order: [["createdAt"]],
                 },
             ],
