@@ -1,0 +1,23 @@
+extends layout.pug
+
+include utils.pug
+
+append head
+  script(src="/javascripts/demo.js" type="module" async defer)
+  link(rel="stylesheet" href="/stylesheets/new-comment.css")
+
+block content
+  include top-nav
+  include side-nav
+  div.main
+    div.form-elements
+      h2 New comment
+      +validationErrorSummary(errors)
+      .answer-container
+        p.answer-content= answer.content
+      form(method="post" action=`/answers/${answerId}/comments`)
+        input(type="hidden" name='_csrf' value=csrfToken)
+        div.form-comment
+          label(for="comment") Comment:
+          textarea.comment-input(name="comment" maxlength=255)
+          input.form-submit(type="submit" value='Submit')
