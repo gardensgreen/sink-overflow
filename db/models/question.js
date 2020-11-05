@@ -20,8 +20,8 @@ module.exports = (sequelize, DataTypes) => {
     );
     Question.associate = function (models) {
         Question.belongsTo(models.User, { foreignKey: "userId" });
-        Question.hasMany(models.Answer, { foreignKey: "questionId" });
-        Question.hasMany(models.Vote, { foreignKey: "questionId" });
+        Question.hasMany(models.Answer, { foreignKey: "questionId", onDelete: 'cascade', hooks: true });
+        Question.hasMany(models.Vote, { foreignKey: "questionId", onDelete: 'cascade', hooks: true});
     };
     return Question;
 };
