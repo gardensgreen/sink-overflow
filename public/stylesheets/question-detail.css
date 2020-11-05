@@ -16,7 +16,7 @@ ul li {
 
 .questions-block {
     background-color: #dfe7f0;
-    margin: 25px 150px;
+    margin: 25px 175px;
     display: flex;
     border-radius: 10px;
     transition: background-color 600ms ease;
@@ -33,7 +33,7 @@ ul li {
     transition: background-color 0.5s;
     transition-timing-function: ease-in-out;
     text-decoration: none;
-    margin-left: 150px;
+    margin-left: 175px;
 }
 
 .actions {
@@ -44,7 +44,7 @@ ul li {
 .actions-actions {
     display: flex;
     flex-direction: row;
-    margin-right: 150px;
+    margin-right: 175px;
 }
 .edit-question {
     padding: 10px 30px;
@@ -68,6 +68,10 @@ ul li {
     background-color: #02b8f2;
 }
 
+.delete-question:hover {
+    background-color: #02b8f2;
+}
+
 .delete-question {
     padding: 10px 30px;
 
@@ -84,7 +88,7 @@ ul li {
 .answer-block {
     background-color: #f09d37a6;
     border: 1px solid #f09d37;
-    margin: 25px 150px;
+    margin: 25px 175px;
     display: flex;
     border-radius: 10px;
     transition: background-color 600ms ease;
@@ -96,16 +100,18 @@ ul li {
     justify-content: center;
     margin: 10px;
     padding: 10px;
+    width: 100%;
 }
 .questions-block__content {
     display: flex;
     flex-direction: column;
     margin: 10px;
     padding: 10px;
+    width: 100%;
 }
 
 .questions-block__user-info {
-    align-items: center;
+    align-items: flex-end;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -114,7 +120,7 @@ ul li {
 }
 
 .answer-block__user-info {
-    align-items: center;
+    align-items: flex-end;
     display: flex;
     flex-direction: column;
     justify-content: center;

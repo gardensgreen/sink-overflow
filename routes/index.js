@@ -13,7 +13,10 @@ const trimContent = (questions) => {
         let content = question.content;
 
         let trimmed;
-        if (content.length > 140) trimmed = content.substring(0, 140);
+        if (content.length > 140) { 
+            trimmed = content.substring(0, 140);} else {
+                trimmed = content;
+            }
         question.trimmedContent = trimmed + "...";
     }
 };

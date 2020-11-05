@@ -6,6 +6,8 @@ const db = require("../db/models");
 
 var router = express.Router();
 
+//Helper Functions
+/* ********************************************************************************************************************/
 const addVoteCountQuestion = (question) => {
     let voteCount = 0;
     for (let j = 0; j < question.Votes.length; j++) {
@@ -54,7 +56,7 @@ const addAnswerAuthor = async (answers) => {
     }
 };
 
-function convertDate(question) {
+const convertDate = (question) => {
     let months = {
         Jan: "01",
         Feb: "02",
@@ -74,8 +76,14 @@ function convertDate(question) {
     let parts = createdAt.split(" ");
     question.formattedDate = months[parts[1]] + "/" + parts[2] + "/" + parts[3];
 }
+const questionNotFoundError = (id) => {
+  const err = Error(`Question with id of ${id} could not be found.`);
+  err.title = "Question not found.";
+  err.status = 404;
+  return err;
+};
 
-function convertDateAnswers(answers) {
+const convertDateAnswers = (answers) => {
     let months = {
         Jan: "01",
         Feb: "02",
@@ -97,8 +105,110 @@ function convertDateAnswers(answers) {
         answer.formattedDate =
             months[parts[1]] + "/" + parts[2] + "/" + parts[3];
     }
-}
+};
 
+/* ********************************************************************************************************************/
+
+//Validators
+/* ********************************************************************************************************************/
+const questionValidators = [
+    check("title")
+        .exists({ checkFalsy: true })
+        .withMessage("Please enter a title")
+        .isLength({ max: 50 })
+        .withMessage("The title must be no longer than 50 characters long"),
+    check("content")
+        .exists({ checkFalsy: true })
+        .withMessage("Please enter a question")
+        .isLength({ max: 255 })
+        .withMessage("The question must be no longer than 255 characters long"),
+];
+
+const answerValidators = [
+    check("content")
+        .exists({ checkFalsy: true })
+        .withMessage("Please enter an answer")
+        .isLength({ max: 255 })
+        .withMessage("The answer must be no longer than 255 characters long"),
+];
+/* ********************************************************************************************************************/
+
+//Routes
+/* ********************************************************************************************************************/
+
+//Get new question form
+/* ********************************************************************************************************************/
+router.get(
+    "/new",
+    csrfProtection,
+    asyncHandler(async (req, res) => {
+        if (res.locals.authenticated) {
+            res.render("new-question", {
+                title: "New Question",
+                csrfToken: req.csrfToken(),
+            });
+        } else {
+            res.redirect("/login");
+        }
+    })
+);
+/* ********************************************************************************************************************/
+
+//Create new question
+/* ********************************************************************************************************************/
+router.post(
+    "/",
+    csrfProtection,
+    questionValidators,
+    asyncHandler(async (req, res, next) => {
+        const { title, content } = req.body;
+        const userId = res.locals.user.id;
+
+        const question = db.Question.build({
+            title,
+            content,
+            userId,
+        });
+
+        // console.log(title);
+        const validatorErrors = validationResult(req);
+        try {
+            if (validatorErrors.isEmpty()) {
+                await question.save();
+                res.redirect("/");
+            } else {
+                const errors = validatorErrors
+                    .array()
+                    .map((error) => error.msg);
+                res.render("new-question", {
+                    title: title,
+                    content,
+                    errors,
+                    csrfToken: req.csrfToken(),
+                });
+            }
+        } catch (err) {
+            if (
+                err.name === "SequelizeValidationError" ||
+                err.name === "SequelizeUniqueConstraintError"
+            ) {
+                const errors = err.errors.map((error) => error.message);
+                res.render("new-question", {
+                    title: "New Question",
+                    question,
+                    errors,
+                    csrfToken: req.csrfToken(),
+                });
+            } else {
+                next(err);
+            }
+        }
+    })
+);
+/* ********************************************************************************************************************/
+
+//Question Details
+/* ********************************************************************************************************************/
 router.get(
     "/:id(\\d+)",
     asyncHandler(async (req, res) => {
@@ -111,6 +221,7 @@ router.get(
                     model: db.Answer,
                     as: "Answers",
                     include: { model: db.Vote },
+                    order: [["createdAt"]],
                 },
             ],
         });
@@ -125,6 +236,92 @@ router.get(
         // console.log(question);
 
         res.render("question-detail", { question });
+    })
+);
+/* ********************************************************************************************************************/
+
+router.post('/:id/delete',
+    asyncHandler(async (req, res, next) => {
+        const questionId = parseInt(req.params.id, 10);
+        const question = await db.Question.findByPk(questionId)
+        
+        if (question) {
+            await question.destroy()
+            res.redirect('/')
+        } else {
+            next(questionNotFoundError(questionId));
+        } 
+}))
+
+//Get Answer form for question
+router.get(
+    "/:id(\\d+)/answers/new",
+    csrfProtection,
+    asyncHandler(async (req, res) => {
+        if (res.locals.authenticated) {
+            const questionId = parseInt(req.params.id, 10);
+            const question = await db.Question.findByPk(questionId);
+            res.render("new-answer", {
+                question,
+                csrfToken: req.csrfToken(),
+            });
+        } else {
+            res.redirect("/login");
+        }
+    })
+);
+            
+
+//Create an answer that is associated to the question
+router.post(
+    "/:id(\\d+)/answers",
+    csrfProtection,
+    answerValidators,
+    asyncHandler(async (req, res, next) => {
+        const questionId = parseInt(req.params.id, 10);
+        const { content } = req.body;
+        const userId = res.locals.user.id;
+
+        const answer = db.Answer.build({
+            content,
+            userId,
+            questionId,
+        });
+
+        // console.log(title);
+        const validatorErrors = validationResult(req);
+        try {
+            if (validatorErrors.isEmpty()) {
+                await answer.save();
+                res.redirect(`/questions/${questionId}`);
+            } else {
+                const errors = validatorErrors
+                    .array()
+                    .map((error) => error.msg);
+                const question = await db.Question.findByPk(questionId);
+                res.render("new-answer", {
+                    content,
+                    errors,
+                    question,
+                    csrfToken: req.csrfToken(),
+                });
+            }
+        } catch (err) {
+            if (
+                err.name === "SequelizeValidationError" ||
+                err.name === "SequelizeUniqueConstraintError"
+            ) {
+                const errors = err.errors.map((error) => error.message);
+                res.render("new-answer", {
+                    title: "New Answer",
+                    question,
+                    errors,
+                    csrfToken: req.csrfToken(),
+                });
+            } else {
+                next(err);
+            }
+        }
     })
 );
 
