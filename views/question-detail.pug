@@ -49,23 +49,24 @@ block content
                 li= answer.author
                 li= answer.formattedDate
 
-        if authenticated
-            if answer.Comments.length === 0
-              .answer-actions
-                a.add-comment-no(href=`/answers/${answer.id}/comments/new`) Add Comment
-                if user.id === answer.userId
-                    .answer-actions-actions-no
-                      a.edit-answer(href=`/answers/${answer.id}/edit`) Edit Answer
-                      form(action=`/answer/${answer.id}/delete` method="post")
-                        button.delete-answer(type="submit") Delete Answer
-            else
-              each comment in answer.Comments
-                div.comment-block
-                  .comment-block__content
-                    .comment-block__comment__content=comment.comment
-              a.add-comment.check(href=`/answers/${answer.id}/comments/new`) Add Comment
+        if answer.Comments.length === 0
+          if authenticated
+            .answer-actions
+              a.add-comment-no(href=`/answers/${answer.id}/comments/new`) Add Comment
               if user.id === answer.userId
-                    .answer-actions-actions
-                      form(action=`/answer/${answer.id}/delete` method="post")
-                        button.delete-answer(type="submit") Delete Answer
-                      a.edit-answer(href=`/answers/${answer.id}/edit`) Edit Answer
+                  .answer-actions-actions-no
+                    a.edit-answer(href=`/answers/${answer.id}/edit`) Edit Answer
+                    form(action=`/answer/${answer.id}/delete` method="post")
+                      button.delete-answer(type="submit") Delete Answer
+        else
+          each comment in answer.Comments
+            div.comment-block
+              .comment-block__content
+                .comment-block__comment__content=comment.comment
+          if authenticated
+            a.add-comment.check(href=`/answers/${answer.id}/comments/new`) Add Comment
+            if user.id === answer.userId
+                  .answer-actions-actions
+                    form(action=`/answer/${answer.id}/delete` method="post")
+                      button.delete-answer(type="submit") Delete Answer
+                    a.edit-answer(href=`/answers/${answer.id}/edit`) Edit Answer
