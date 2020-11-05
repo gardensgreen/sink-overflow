@@ -179,10 +179,8 @@ router.post(
     csrfProtection,
     questionValidators,
   asyncHandler(async (req, res, next) => {
-    const { title, content } = req.body;
-    // const userId = res.locals.user.id;
+    const { content } = req.body;
     const answerId = parseInt(req.params.id, 10);
-
     const answer = await db.Answer.findByPk(answerId)
     if (answer) {
       await answer.update({ content: content })
