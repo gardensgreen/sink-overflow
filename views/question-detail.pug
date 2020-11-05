@@ -28,11 +28,11 @@ block content
 
     if authenticated
         .actions
-            a.add-answer(href="/questions/#{question.id}/answers/new") Add Answer
+            a.add-answer(href=`/questions/${question.id}/answers/new`) Add Answer
             if user.id === question.userId
                 .actions-actions
-                    a.edit-question(href="/questions/#{question.id}/edit") Edit Question
-                    form(action="/questions/#{question.id}/delete" method="post")
+                    a.edit-question(href=`/questions/${question.id}/edit`) Edit Question
+                    form(action=`/questions/${question.id}/delete` method="post")
                         button.delete-question(type="submit") Delete Question
 
 
