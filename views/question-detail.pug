@@ -56,7 +56,7 @@ block content
               if user.id === answer.userId
                   .answer-actions-actions-no
                     a.edit-answer(href=`/answers/${answer.id}/edit`) Edit Answer
-                    form(action=`/answer/${answer.id}/delete` method="post")
+                    form(action=`/answers/${answer.id}/delete` method="post")
                       button.delete-answer(type="submit") Delete Answer
         else
           each comment in answer.Comments
@@ -67,6 +67,6 @@ block content
             a.add-comment.check(href=`/answers/${answer.id}/comments/new`) Add Comment
             if user.id === answer.userId
                   .answer-actions-actions
-                    form(action=`/answer/${answer.id}/delete` method="post")
+                    form(action=`/answers/${answer.id}/delete` method="post")
                       button.delete-answer(type="submit") Delete Answer
                     a.edit-answer(href=`/answers/${answer.id}/edit`) Edit Answer
