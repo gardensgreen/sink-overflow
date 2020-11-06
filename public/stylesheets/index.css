@@ -113,3 +113,7 @@ a:hover .questions-block {
 
     /* padding: 1rem; */
 }
+
+.voted {
+    border-color: #0099ff transparent transparent #0099ff;
+}

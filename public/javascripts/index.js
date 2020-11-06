@@ -1,40 +1,39 @@
 window.addEventListener("load", (event) => {
     console.log("hello from javascript!");
-});
 
-const searchForm = document.querySelector(".search-form");
-console.log(searchForm);
-console.log("HELLLOOOO");
-const main = document.querySelector(".main");
+    const searchForm = document.querySelector(".search-form");
+    console.log(searchForm);
+    console.log("HELLLOOOO");
+    const main = document.querySelector(".main");
 
-searchForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const term = document.querySelector(".search-input").value;
-    const body = {
-        term,
-    };
+    searchForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const term = document.querySelector(".search-input").value;
+        const body = {
+            term,
+        };
 
-    try {
-        let res = await fetch("/api/search/", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(body),
-        });
+        try {
+            let res = await fetch("/api/search/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(body),
+            });
 
-        let parsedResponse = await res.json();
-        console.log(parsedResponse);
+            let parsedResponse = await res.json();
+            console.log(parsedResponse);
 
-        let { questions } = parsedResponse;
+            let { questions } = parsedResponse;
 
-        if (questions.length === 0) {
-            console.log("this got here");
-            main.innerHTML = `<p>No Results Found</p>`;
-        } else {
-            let questionsHTML = "<ul>";
-            for (let question of questions) {
-                questionsHTML += `<a href='/questions/${question.id}/'>
+            if (questions.length === 0) {
+                console.log("this got here");
+                main.innerHTML = `<p>No Results Found</p>`;
+            } else {
+                let questionsHTML = "<ul>";
+                for (let question of questions) {
+                    questionsHTML += `<a href='/questions/${question.id}/'>
                                     <div class="questions-block">
                                         <div class="questions-block__content">
                                             <li class="question-block__content__title">${question.title}</li>
@@ -42,11 +41,171 @@ searchForm.addEventListener("submit", async (e) => {
                                         </div>
                                     </div>
                                   </a>`;
+                }
+                questionsHTML += "</ul>";
+                main.innerHTML = questionsHTML;
             }
-            questionsHTML += "</ul>";
-            main.innerHTML = questionsHTML;
+        } catch (err) {
+            console.error(err);
         }
-    } catch (err) {
-        console.error(err);
+    });
+
+    let upArrows = document.querySelectorAll(".up-arrow");
+
+    for (let upArrow of upArrows) {
+        upArrow.addEventListener("click", async (e) => {
+            e.preventDefault();
+
+            const voteCountSpan = document.querySelector(
+                `#vote-count-${e.target.dataset.questionid}`
+            );
+
+            try {
+                const body = { isDownvote: false };
+                let res = await fetch(
+                    `/api/votes/questions/${e.target.dataset.questionid}`,
+                    {
+                        method: "POST",
+                        headers: {
+                            Accept: "application/json",
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(body),
+                    }
+                );
+
+                console.log("yo wtf " + res.toString());
+                if (!res.ok) throw res;
+                let data = await res.json();
+                console.log(data.voteCount);
+
+                if (upArrow.classList.contains("voted")) {
+                    upArrow.classList.remove("voted");
+                } else {
+                    upArrow.classList.add("voted");
+                }
+
+                voteCountSpan.innerHTML = data.voteCount;
+            } catch (err) {
+                parsedErr = await err.json();
+            }
+        });
+    }
+
+    let downArrows = document.querySelectorAll(".down-arrow");
+
+    for (let downArrow of downArrows) {
+        downArrow.addEventListener("click", async (e) => {
+            e.preventDefault();
+
+            const voteCountSpan = document.querySelector(
+                `#vote-count-${e.target.dataset.questionid}`
+            );
+
+            try {
+                const body = { isDownvote: true };
+                let res = await fetch(
+                    `/api/votes/questions/${e.target.dataset.questionid}`,
+                    {
+                        method: "POST",
+                        headers: {
+                            Accept: "application/json",
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(body),
+                    }
+                );
+
+                console.log("yo wtf " + res.toString());
+                if (!res.ok) throw res;
+                let data = await res.json();
+                console.log(data.voteCount);
+
+                if (downArrow.classList.contains("voted")) {
+                    downArrow.classList.remove("voted");
+                } else {
+                    downArrow.classList.add("voted");
+                }
+
+                voteCountSpan.innerHTML = data.voteCount;
+            } catch (err) {
+                parsedErr = await err.json();
+            }
+        });
     }
 });
+
+// console.log(downArrows);
+// for (let downArrow of downArrows) {
+//     downArrow.addEventListener("click", (e) => {
+//         e.preventDefault();
+//         console.log(e.target.dataset.questionid);
+
+//         downArrow.classList.remove("down-arrow");
+//         downArrow.classList.add("down-arrow-voted");
+//     });
+// }
+
+// let downArrows = document.querySelectorAll(".down-arrow");
+// let downArrowsVoted = document.querySelectorAll(".up-arrow-voted");
+// let downArrowsVoted = document.querySelectorAll(".down-arrow-voted");
+
+// const resetNodeLists = () => {
+//     upArrows = document.querySelectorAll(".up-arrow");
+//     upArrowsVoted = document.querySelectorAll(".up-arrow-voted");
+
+//     for (let upArrow of upArrows) {
+//         upArrow.addEventListener("click", (e) => {
+//             e.preventDefault();
+//             console.log(e.target.dataset.questionid);
+
+//             upArrow.classList.remove("up-arrow");
+//             upArrow.classList.add("up-arrow-voted");
+//             resetNodeLists();
+//         });
+//     }
+
+//     for (let upArrowVoted of upArrowsVoted) {
+//         upArrowVoted.addEventListener("click", (e) => {
+//             e.preventDefault();
+
+//             upArrowVoted.classList.remove("up-arrow-voted");
+//             upArrowVoted.classList.add("up-arrow");
+//             resetNodeLists();
+//         });
+//     }
+// };
+
+// for (let upArrow of upArrows) {
+//     upArrow.addEventListener("click", (e) => {
+//         e.preventDefault();
+//         console.log(e.target.dataset.questionid);
+
+//         upArrow.classList.remove("up-arrow");
+//         upArrow.classList.add("up-arrow-voted");
+//     });
+
+//     resetNodeLists();
+// }
+
+// for (let upArrow of upArrows) {
+//     upArrow.addEventListener("click", (e) => {
+//         e.preventDefault();
+//         console.log(e.target.dataset.questionid);
+
+//         upArrow.classList.remove("up-arrow");
+//         upArrow.classList.add("up-arrow-voted");
+//     });
+
+//     resetNodeLists();
+// }
+
+// for (let upArrowVoted of upArrowsVoted) {
+//     upArrowVoted.addEventListener("click", (e) => {
+//         e.preventDefault();
+
+//         upArrowVoted.classList.remove("up-arrow-voted");
+//         upArrowVoted.classList.add("up-arrow");
+//     });
+
+//     resetNodeLists();

@@ -19,9 +19,15 @@ block content
               li= question.answerCount
               li Answers
             div.question-block__votes
-              div.up-arrow
-              li.question-block__votes__vote-count= question.voteCount
-              div.down-arrow
+              if question.userUpVote
+                div.up-arrow.voted(data-questionId=question.id)
+              else
+                div.up-arrow(data-questionId=question.id)
+              li.question-block__votes__vote-count(id=`vote-count-${question.id}`)= question.voteCount
+              if question.userDownVote
+                div.down-arrow.voted(data-questionId=question.id)
+              else
+                div.down-arrow(data-questionId=question.id)
             div.questions-block__content
               li.question-block__content__title= question.title
               li.question-block__content__question= question.trimmedContent
