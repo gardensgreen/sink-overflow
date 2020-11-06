@@ -285,3 +285,23 @@ ul li {
     border-color: white transparent transparent white;
     transform: rotate(-135deg);
 }
+
+.up-arrow-answer {
+    width: 20px;
+    height: 20px;
+    border: 4px solid;
+    border-color: white transparent transparent white;
+    transform: rotate(45deg);
+}
+
+.down-arrow-answer {
+    width: 20px;
+    height: 20px;
+    border: 4px solid;
+    border-color: white transparent transparent white;
+    transform: rotate(-135deg);
+}
+
+.voted-answer {
+    border-color: #f09d37 transparent transparent #f09d37;
+}

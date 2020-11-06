@@ -13,11 +13,38 @@ const trimContent = (questions) => {
         let content = question.content;
 
         let trimmed;
-        if (content.length > 140) { 
-            trimmed = content.substring(0, 140);} else {
-                trimmed = content;
-            }
+        if (content.length > 140) {
+            trimmed = content.substring(0, 140);
+        } else {
+            trimmed = content;
+        }
         question.trimmedContent = trimmed + "...";
+    }
+};
+
+const didIVote = async (questions, res) => {
+    for (let i = 0; i < questions.length; i++) {
+        let question = questions[i];
+
+        const vote = await db.Vote.findOne({
+            where: {
+                userId: res.locals.user.id,
+                questionId: question.id,
+            },
+        });
+
+        if (vote) {
+            if (vote.isDownvote) {
+                question.userDownVote = true;
+                question.userUpVote = false;
+            } else {
+                question.userDownVote = false;
+                question.userUpVote = true;
+            }
+        } else {
+            question.userDownVote = false;
+            question.userUpVote = false;
+        }
     }
 };
 
@@ -104,6 +131,11 @@ router.get(
         convertDate(questions);
         trimContent(questions);
         addQuestionLink(questions);
+
+        if (res.locals.authenticated) {
+            await didIVote(questions, res);
+        }
+
         // console.log(questions);
         res.render("index", { questions });
     })
