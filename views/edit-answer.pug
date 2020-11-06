@@ -20,4 +20,4 @@ block content
                     textarea.form-elements__content__input(name="content" maxlength=255 required)= answer.content
                 div.form-elements__buttons
                     input.form-elements__buttons__submit(type="submit" value="Submit")
-                    button.form-elements__buttons__cancel(type="button") Cancel
+                    a.form-elements__buttons__cancel(href=`/questions/${answer.questionId}`) Cancel

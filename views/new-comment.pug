@@ -20,4 +20,6 @@ block content
         div.form-comment
           label(for="comment") Comment:
           textarea.comment-input(name="comment" maxlength=255 required)
-          input.form-submit(type="submit" value='Submit')
+        div.form-elements__buttons
+          input.form-elements__buttons__submit(type="submit" value='Submit')
+          a.form-elements__buttons__cancel(href=`/questions/${answer.questionId}`) Cancel
