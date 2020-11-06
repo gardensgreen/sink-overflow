@@ -301,3 +301,7 @@ ul li {
     border-color: white transparent transparent white;
     transform: rotate(-135deg);
 }
+
+.voted {
+    border-color: #0099ff transparent transparent #0099ff;
+}
