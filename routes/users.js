@@ -8,7 +8,6 @@ const { Answer, Comment, Question, User, Vote, sequelize } = db;
 const { loginUser, logoutUser } = require("../auth");
 //const {addVoteCount,addAnswerCount,convertDate} = require("./index")
 
-
 var router = express.Router();
 
 /* GET users listing. */
@@ -156,7 +155,16 @@ router.post(
                 const hashedPassword = await bcrypt.hash(password, 10);
                 user.hashedPassword = hashedPassword;
                 await user.save();
-                res.redirect("/");
+                loginUser(req, res, user);
+                return req.session.save((err) => {
+                    if (!err) {
+                        console.log("no error");
+                        return res.redirect("/");
+                    } else {
+                        console.log(err);
+                        next(err);
+                    }
+                });
             } else {
                 const errors = validatorErrors
                     .array()
@@ -266,13 +274,16 @@ router.post("/logout", (req, res, next) => {
 /* ************************************************************************************** */
 // Demo User
 /* ************************************************************************************** */
-router.get('/demo', asyncHandler(async (req, res, next) => {
-    const demoUser = await db.User.findOne({
-            where: {email: 'demo@demo.com'}
+router.get(
+    "/demo",
+    asyncHandler(async (req, res, next) => {
+        const demoUser = await db.User.findOne({
+            where: { email: "demo@demo.com" },
+        });
+        loginUser(req, res, demoUser);
+        return res.redirect("/");
     })
-    loginUser(req, res, demoUser)
-    return res.redirect("/")
-}))
+);
 /* ************************************************************************************** */
 // My Questions
 /* ************************************************************************************** */
@@ -344,6 +355,5 @@ router.get('/users/:id/answers', asyncHandler(async (req, res) => {
         res.render("myQuestion", { questions });
     }
 }));
-
 
 module.exports = router;

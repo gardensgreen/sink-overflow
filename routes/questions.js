@@ -265,7 +265,7 @@ router.get(
     asyncHandler(async (req, res) => {
         const questionId = parseInt(req.params.id, 10);
         const question = await db.Question.findByPk(questionId);
-        console.log(question)
+        console.log(question);
         if (res.locals.authenticated) {
             res.render("edit-question", {
                 question,
@@ -275,26 +275,26 @@ router.get(
             res.redirect("/login");
         }
     })
-    
 );
 
 router.post(
-    '/:id',
+    "/:id",
     csrfProtection,
     questionValidators,
     asyncHandler(async (req, res, next) => {
         const { title, content } = req.body;
         const userId = res.locals.user.id;
         const questionId = parseInt(req.params.id, 10);
-        
-        const question = await db.Question.findByPk(questionId)
+
+        const question = await db.Question.findByPk(questionId);
         if (question) {
-            await question.update({ title: title, content: content })
-                res.redirect(`/questions/${question.id}`);
-    } else {
-        next(questionNotFoundError(questionId));
-    }
- }))
+            await question.update({ title: title, content: content });
+            res.redirect(`/questions/${question.id}`);
+        } else {
+            next(questionNotFoundError(questionId));
+        }
+    })
+);
 
 //Get Answer form for question
 router.get(

@@ -20,7 +20,7 @@ block content
                 input(type="hidden" name="_csrf" value=csrfToken)
                 div.form-elements__content
                     label(for="content") Answer:
-                    textarea.form-elements__content__input(name="content" maxlength=255)
+                    textarea.form-elements__content__input(required name="content" maxlength=255)
                 div.form-elements__buttons
                     input.form-elements__buttons__submit(type="submit" value="Submit")
                     button.form-elements__buttons__cancel(type="button") Cancel
