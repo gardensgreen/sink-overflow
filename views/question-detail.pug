@@ -47,12 +47,12 @@ block content
         div.answer-block
             div.answer-block__votes
                 if answer.userUpVote
-                  div.up-arrow-answer.voted(id=`up-arrow-answer-${answer.id}` data-answerId=answer.id)
+                  div.up-arrow-answer.voted-answer(id=`up-arrow-answer-${answer.id}` data-answerId=answer.id)
                 else
                   div.up-arrow-answer(id=`up-arrow-answer-${answer.id}` data-answerId=answer.id)
                 li.answer-block__votes__vote-count(id=`vote-count-answers-${answer.id}`)= answer.voteCount
                 if answer.userDownVote
-                  div.down-arrow-answer.voted(id=`down-arrow-answer-${answer.id}` data-answerId=answer.id)
+                  div.down-arrow-answer.voted-answer(id=`down-arrow-answer-${answer.id}` data-answerId=answer.id)
                 else
                   div.down-arrow-answer(id=`down-arrow-answer-${answer.id}` data-answerId=answer.id)
             .answer-block__content

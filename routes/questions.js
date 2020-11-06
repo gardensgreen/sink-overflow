@@ -280,8 +280,11 @@ router.get(
         addVoteCountAnswers(question.Answers);
         convertDateAnswers(question.Answers);
         await addAnswerAuthor(question.Answers);
-        await didIVoteQuestion(question, res);
-        await didIVoteAnswers(question.Answers, res);
+
+        if (res.locals.authenticated) {
+            await didIVoteQuestion(question, res);
+            await didIVoteAnswers(question.Answers, res);
+        }
 
         // console.log(question);
 

@@ -302,6 +302,6 @@ ul li {
     transform: rotate(-135deg);
 }
 
-.voted {
-    border-color: #0099ff transparent transparent #0099ff;
+.voted-answer {
+    border-color: #f09d37 transparent transparent #f09d37;
 }

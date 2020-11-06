@@ -50,6 +50,10 @@ router.get(
 router.post(
     "/questions/:id(\\d+)",
     asyncHandler(async (req, res) => {
+        if (!res.locals.authenticated) {
+            res.redirect("/login");
+        }
+
         const { isDownvote } = req.body;
         const questionId = parseInt(req.params.id, 10);
 
@@ -61,7 +65,6 @@ router.post(
             },
         });
 
-        console.log(isDownvote);
         const editVote = await db.Vote.findOne({
             where: {
                 userId: res.locals.user.id,
@@ -77,8 +80,6 @@ router.post(
                 isDownvote,
             });
         } else {
-            console.log("No Vote for user: " + res.locals.user.id);
-            console.log("On question: " + questionId);
             await db.Vote.create({
                 isDownvote,
                 userId: res.locals.user.id,
@@ -100,6 +101,10 @@ router.post(
 router.post(
     "/answers/:id(\\d+)",
     asyncHandler(async (req, res) => {
+        if (!res.locals.authenticated) {
+            res.redirect("/login");
+        }
+
         const { isDownvote } = req.body;
         const answerId = parseInt(req.params.id, 10);
 
@@ -110,8 +115,6 @@ router.post(
                 answerId: answerId,
             },
         });
-
-        console.log(exactVote);
 
         const editVote = await db.Vote.findOne({
             where: {
