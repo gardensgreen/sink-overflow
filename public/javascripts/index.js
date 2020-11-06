@@ -82,12 +82,30 @@ window.addEventListener("load", (event) => {
                 if (upArrow.classList.contains("voted")) {
                     upArrow.classList.remove("voted");
                 } else {
+                    if (
+                        document
+                            .querySelector(
+                                `#down-arrow-${e.target.dataset.questionid}`
+                            )
+                            .classList.contains("voted")
+                    ) {
+                        document
+                            .querySelector(
+                                `#down-arrow-${e.target.dataset.questionid}`
+                            )
+                            .classList.remove("voted");
+                    }
                     upArrow.classList.add("voted");
                 }
 
                 voteCountSpan.innerHTML = data.voteCount;
             } catch (err) {
-                parsedErr = await err.json();
+                if (err.json) {
+                    parsedErr = await err.json();
+                    console.log(parsedErr);
+                } else {
+                    console.log(err.message);
+                }
             }
         });
     }
@@ -124,12 +142,148 @@ window.addEventListener("load", (event) => {
                 if (downArrow.classList.contains("voted")) {
                     downArrow.classList.remove("voted");
                 } else {
+                    if (
+                        document
+                            .querySelector(
+                                `#up-arrow-${e.target.dataset.questionid}`
+                            )
+                            .classList.contains("voted")
+                    ) {
+                        document
+                            .querySelector(
+                                `#up-arrow-${e.target.dataset.questionid}`
+                            )
+                            .classList.remove("voted");
+                    }
                     downArrow.classList.add("voted");
                 }
 
                 voteCountSpan.innerHTML = data.voteCount;
             } catch (err) {
-                parsedErr = await err.json();
+                if (err.json) {
+                    parsedErr = await err.json();
+                    console.log(parsedErr);
+                } else {
+                    console.log(err.message);
+                }
+            }
+        });
+    }
+
+    let upArrowsAnswers = document.querySelectorAll(".up-arrow-answer");
+
+    for (let upArrow of upArrowsAnswers) {
+        upArrow.addEventListener("click", async (e) => {
+            e.preventDefault();
+
+            const voteCountSpan = document.querySelector(
+                `#vote-count-answers-${e.target.dataset.answerid}`
+            );
+
+            try {
+                const body = { isDownvote: false };
+                let res = await fetch(
+                    `/api/votes/answers/${e.target.dataset.answerid}`,
+                    {
+                        method: "POST",
+                        headers: {
+                            Accept: "application/json",
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(body),
+                    }
+                );
+
+                console.log("yo wtf " + res.toString());
+                if (!res.ok) throw res;
+                let data = await res.json();
+                console.log(data.voteCount);
+
+                if (upArrow.classList.contains("voted")) {
+                    upArrow.classList.remove("voted");
+                } else {
+                    if (
+                        document
+                            .querySelector(
+                                `#down-arrow-answer-${e.target.dataset.answerid}`
+                            )
+                            .classList.contains("voted")
+                    ) {
+                        document
+                            .querySelector(
+                                `#down-arrow-answer-${e.target.dataset.answerid}`
+                            )
+                            .classList.remove("voted");
+                    }
+                    upArrow.classList.add("voted");
+                }
+
+                voteCountSpan.innerHTML = data.voteCount;
+            } catch (err) {
+                if (err.json) {
+                    parsedErr = await err.json();
+                    console.log(parsedErr);
+                } else {
+                    console.log(err.message);
+                }
+            }
+        });
+    }
+
+    let downArrowsAnswers = document.querySelectorAll(".down-arrow-answer");
+
+    for (let downArrow of downArrowsAnswers) {
+        downArrow.addEventListener("click", async (e) => {
+            e.preventDefault();
+
+            const voteCountSpan = document.querySelector(
+                `#vote-count-answers-${e.target.dataset.answerid}`
+            );
+
+            try {
+                const body = { isDownvote: true };
+                let res = await fetch(
+                    `/api/votes/answers/${e.target.dataset.answerid}`,
+                    {
+                        method: "POST",
+                        headers: {
+                            Accept: "application/json",
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(body),
+                    }
+                );
+
+                if (!res.ok) throw res;
+                let data = await res.json();
+
+                if (downArrow.classList.contains("voted")) {
+                    downArrow.classList.remove("voted");
+                } else {
+                    if (
+                        document
+                            .querySelector(
+                                `#up-arrow-answer-${e.target.dataset.answerid}`
+                            )
+                            .classList.contains("voted")
+                    ) {
+                        document
+                            .querySelector(
+                                `#up-arrow-answer-${e.target.dataset.answerid}`
+                            )
+                            .classList.remove("voted");
+                    }
+                    downArrow.classList.add("voted");
+                }
+
+                voteCountSpan.innerHTML = data.voteCount;
+            } catch (err) {
+                if (err.json) {
+                    parsedErr = await err.json();
+                    console.log(parsedErr);
+                } else {
+                    console.log(err.message);
+                }
             }
         });
     }

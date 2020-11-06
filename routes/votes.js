@@ -100,12 +100,12 @@ router.post(
 router.post(
     "/answers/:id(\\d+)",
     asyncHandler(async (req, res) => {
-        const { isDownvote, userId } = req.body;
+        const { isDownvote } = req.body;
         const answerId = parseInt(req.params.id, 10);
 
         const exactVote = await db.Vote.findOne({
             where: {
-                userId: userId,
+                userId: res.locals.user.id,
                 isDownvote: isDownvote,
                 answerId: answerId,
             },
@@ -115,7 +115,7 @@ router.post(
 
         const editVote = await db.Vote.findOne({
             where: {
-                userId: userId,
+                userId: res.locals.user.id,
                 isDownvote: !isDownvote,
                 answerId: answerId,
             },
@@ -130,7 +130,7 @@ router.post(
         } else {
             await db.Vote.create({
                 isDownvote,
-                userId,
+                userId: res.locals.user.id,
                 answerId,
             });
         }

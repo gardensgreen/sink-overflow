@@ -17,14 +17,14 @@ block content
               li Answers
             div.question-block__votes
               if question.userUpVote
-                div.up-arrow.voted(data-questionId=question.id)
+                div.up-arrow.voted(id=`up-arrow-${question.id}` data-questionId=question.id)
               else
-                div.up-arrow(data-questionId=question.id)
+                div.up-arrow(id=`up-arrow-${question.id}` data-questionId=question.id)
               li.question-block__votes__vote-count(id=`vote-count-${question.id}`)= question.voteCount
               if question.userDownVote
-                div.down-arrow.voted(data-questionId=question.id)
+                div.down-arrow.voted(id=`down-arrow-${question.id}` data-questionId=question.id)
               else
-                div.down-arrow(data-questionId=question.id)
+                div.down-arrow(id=`down-arrow-${question.id}` data-questionId=question.id)
             div.questions-block__content
               li.question-block__content__title= question.title
               li.question-block__content__question= question.content
@@ -46,9 +46,15 @@ block content
     each answer in question.Answers
         div.answer-block
             div.answer-block__votes
-                div.up-arrow-answer
-                li.answer-block__votes__count= answer.voteCount
-                div.down-arrow-answer
+                if answer.userUpVote
+                  div.up-arrow-answer.voted(id=`up-arrow-answer-${answer.id}` data-answerId=answer.id)
+                else
+                  div.up-arrow-answer(id=`up-arrow-answer-${answer.id}` data-answerId=answer.id)
+                li.answer-block__votes__vote-count(id=`vote-count-answers-${answer.id}`)= answer.voteCount
+                if answer.userDownVote
+                  div.down-arrow-answer.voted(id=`down-arrow-answer-${answer.id}` data-answerId=answer.id)
+                else
+                  div.down-arrow-answer(id=`down-arrow-answer-${answer.id}` data-answerId=answer.id)
             .answer-block__content
                 .answer-block__content__answer= answer.content
             .answer-block__user-info

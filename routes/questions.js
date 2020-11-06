@@ -281,7 +281,7 @@ router.get(
         convertDateAnswers(question.Answers);
         await addAnswerAuthor(question.Answers);
         await didIVoteQuestion(question, res);
-        // await didIVoteAnswers(answers)
+        await didIVoteAnswers(question.Answers, res);
 
         // console.log(question);
 
