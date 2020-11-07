@@ -10,17 +10,29 @@ block content
     include top-nav
     include side-nav
     div.main
-        div.form-elements
-            h2 Edit question
-            +validationErrorSummary(errors)
-            form(method="post" action=`/questions/${question.id}`)
-                input(type="hidden" name="_csrf" value=csrfToken)
-                div.form-elements__title
-                    label(for="title") Title:
-                    input.form-elements__title__input(required type="text" id="title" name="title" value= question.title )
-                div.form-elements__content
-                    label(for="content") Question:
-                    textarea.form-elements__content__input(required name="content" maxlength=255)= question.content
-                div.form-elements__buttons
-                    input.form-elements__buttons__submit(type="submit" value="Submit")
-                    a.form-elements__buttons__cancel(href=`/questions/${question.id}`) Cancel
+        div.form-container
+            h2.form-title Edit Question
+            //- h1.form-container__header Register
+            div.form-container__elements
+                +validationErrorSummary(errors)
+                form(action=`/questions/${question.id}` method='post')
+                    input(required type='hidden' name='_csrf' value=csrfToken)
+                    +field('title', question.title, 'Title')
+                    textarea.form-elements__content__input(placeholder="Content" required name="content" maxlength=255)=question.content
+                    div.form-container-elements__actions-container
+                        button.form-container-elements__button(type='submit') Submit
+                        a.form-container-elements__cancel(href='/') Cancel
+        //- div.form-elements
+        //-     h2 Edit question
+        //-     +validationErrorSummary(errors)
+        //-     form(method="post" action=`/questions/${question.id}`)
+        //-         input(type="hidden" name="_csrf" value=csrfToken)
+        //-         div.form-elements__title
+        //-             label(for="title") Title:
+        //-             input.form-elements__title__input(required type="text" id="title" name="title" value= question.title )
+        //-         div.form-elements__content
+        //-             label(for="content") Question:
+        //-             textarea.form-elements__content__input(required name="content" maxlength=255)= question.content
+        //-         div.form-elements__buttons
+        //-             input.form-elements__buttons__submit(type="submit" value="Submit")
+        //-             a.form-elements__buttons__cancel(href=`/questions/${question.id}`) Cancel
