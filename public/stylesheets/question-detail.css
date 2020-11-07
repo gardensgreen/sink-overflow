@@ -23,6 +23,10 @@ ul li {
         rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
 }
 
+.comment-block__comment__content {
+    color: #fff;
+}
+
 .comment-block {
     background-color: #44d9e6c4;
     margin: 25px 175px 25px 200px;
