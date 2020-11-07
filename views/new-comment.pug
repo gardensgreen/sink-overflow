@@ -22,7 +22,7 @@ block content
               textarea.form-elements__content__input(placeholder="Comment" required name="comment" maxlength=255)
               div.form-container-elements__actions-container
                   button.form-container-elements__button(type='submit') Submit
-                  a.form-container-elements__cancel(href='/') Cancel
+                  a.form-container-elements__cancel(href=`/questions/${answer.questionId}`) Cancel
     //- div.form-elements
     //-   h2 New comment
     //-   +validationErrorSummary(errors)
