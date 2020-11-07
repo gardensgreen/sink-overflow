@@ -4,7 +4,9 @@
     position: fixed;
     background-color: #dfe7f0;
     transition: width 200ms ease;
-    border-radius: 10px;
+    border-radius: 4px;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+        rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
     margin-top: 6rem;
     margin-bottom: 5rem;
     text-align: left;
@@ -57,9 +59,9 @@
 }
 
 .nav-item:hover .primary {
-    fill: #f09d37;
+    fill: #44d9e6;
 }
 
 .nav-item:hover .link-text {
-    color: #f09d37;
+    color: #44d9e6;
 }
