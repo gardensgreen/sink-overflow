@@ -59,9 +59,9 @@
 }
 
 .nav-item:hover .primary {
-    fill: #f09d37;
+    fill: #44d9e6;
 }
 
 .nav-item:hover .link-text {
-    color: #f09d37;
+    color: #44d9e6;
 }
