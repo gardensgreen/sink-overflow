@@ -11,12 +11,6 @@ label {
     padding: 10px;
 }
 
-.main {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
 .form-elements {
     background-color: #dfe7f0;
     display: flex;
@@ -95,4 +89,10 @@ label {
     padding: 20px;
     /* margin: 10px auto; */
     /* padding: 5px; */
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }

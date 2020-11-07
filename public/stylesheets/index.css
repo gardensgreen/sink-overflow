@@ -24,10 +24,11 @@ a {
 }
 
 .questions-block {
-    /* background-color: #dfe7f0; */
+    background-color: #dfe7f0d0;
     width: 70rem;
     display: flex;
     border-radius: 4px;
+    margin-left: 2rem;
     transition: background-color 600ms ease;
     box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
         rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;

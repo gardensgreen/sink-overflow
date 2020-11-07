@@ -48,7 +48,7 @@
 .logout-btn {
     padding: 10px 30px;
 
-    border-radius: 10px;
+    border-radius: 4px;
     border: none;
 
     background-color: #9dd6fc;
@@ -66,9 +66,10 @@
 .login {
     padding: 10px 30px;
 
-    border-radius: 10px;
+    border-radius: 4px;
     border: none;
-
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+        rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
     background-color: #9dd6fc;
     color: #ecf5ff;
     transition: background-color 0.5s;
