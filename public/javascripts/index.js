@@ -196,13 +196,13 @@ window.addEventListener("load", (event) => {
                             .querySelector(
                                 `#down-arrow-answer-${e.target.dataset.answerid}`
                             )
-                            .classList.contains("voted")
+                            .classList.contains("voted-answer")
                     ) {
                         document
                             .querySelector(
                                 `#down-arrow-answer-${e.target.dataset.answerid}`
                             )
-                            .classList.remove("voted");
+                            .classList.remove("voted-answer");
                     }
                     upArrow.classList.add("voted-answer");
                 }
