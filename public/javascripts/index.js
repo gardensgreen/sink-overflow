@@ -4,7 +4,6 @@ window.addEventListener("load", (event) => {
 
 const searchForm = document.querySelector(".search-form");
 console.log(searchForm);
-console.log("HELLLOOOO");
 const main = document.querySelector(".main");
 
 searchForm.addEventListener("submit", async (e) => {
