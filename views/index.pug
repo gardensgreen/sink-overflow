@@ -1,5 +1,7 @@
 extends layout
 
+include utils.pug
+
 append head
   //- add page specific styles by appending to the head
   link(rel="stylesheet" href="/stylesheets/index.css")
@@ -10,8 +12,6 @@ block content
   include top-nav
   include side-nav
   div.main
-    .new-question-form-container
-
     ul
       each question in questions
         a(href=question.link)
