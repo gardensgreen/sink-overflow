@@ -18,13 +18,20 @@ body {
     height: 20px;
     margin-top: 20px;
 }
+a {
+    display: flex;
+    justify-content: space-around;
+}
 
 .questions-block {
-    background-color: #dfe7f0;
-    margin: 25px 175px;
+    width: 70rem;
     display: flex;
-    border-radius: 10px;
+    border-radius: 4px;
+    margin-left: 2rem;
     transition: background-color 600ms ease;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+        rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+    margin-bottom: 1.5rem;
 }
 
 .questions-block__content {
@@ -33,6 +40,11 @@ body {
     margin: 10px;
     padding: 10px;
     width: 100%;
+    /* box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+        rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+    border-radius: 4px; */
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .questions-block__user-info {
@@ -41,16 +53,20 @@ body {
     flex-direction: column;
     justify-content: center;
     text-align: right;
-    padding: 30px 10px;
-    margin-bottom: 20px;
+    /* padding: 30px 10px; */
+    margin-right: 10px;
+    padding-top: 0px;
+    padding-bottom: 0px;
 }
 
 .question-block__votes {
     align-items: center;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    margin-bottom: 15px;
+    justify-content: space-between;
+    margin-right: 2rem;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .questions-block__answers {
@@ -78,38 +94,40 @@ body {
     font-size: 36px;
 }
 
-.question-block__votes__vote-count {
-    color: #ffffff;
-    font-size: 36px;
+.up-arrow {
+    width: 30px;
+    height: 30px;
 }
 
-.up-arrow {
-    width: 20px;
-    height: 20px;
-    border: 4px solid;
-    border-color: white transparent transparent white;
-    transform: rotate(45deg);
+.question-block__votes__vote-count {
+    color: #0099ff;
+    font-size: 36px;
+}
+.voted .primaryp {
+    fill: #0099ff;
 }
 
 .down-arrow {
-    width: 20px;
-    height: 20px;
-    border: 4px solid;
-    border-color: white transparent transparent white;
-    transform: rotate(-135deg);
+    width: 30px;
+    height: 30px;
+    transform: rotate(180deg);
 }
 
 a {
     text-decoration: none;
 }
 
-a:hover .questions-block {
-    background-color: #adc6e2;
+.questions-block:hover {
+    background-color: #44d9e673;
 }
 .main {
     padding-top: 6rem;
     margin-left: 6rem;
     padding-left: 1rem;
-
+    padding-bottom: 2rem;
     /* padding: 1rem; */
+}
+
+.voted {
+    border-color: #0099ff transparent transparent #0099ff;
 }

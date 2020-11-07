@@ -120,6 +120,32 @@ function convertDate(questions) {
             months[parts[1]] + "/" + parts[2] + "/" + parts[3];
     }
 }
+
+const didIVote = async (questions, res) => {
+    for (let i = 0; i < questions.length; i++) {
+        let question = questions[i];
+
+        const vote = await db.Vote.findOne({
+            where: {
+                userId: res.locals.user.id,
+                questionId: question.id,
+            },
+        });
+
+        if (vote) {
+            if (vote.isDownvote) {
+                question.userDownVote = true;
+                question.userUpVote = false;
+            } else {
+                question.userDownVote = false;
+                question.userUpVote = true;
+            }
+        } else {
+            question.userDownVote = false;
+            question.userUpVote = false;
+        }
+    }
+};
 //Routes
 
 //User Registration
@@ -287,73 +313,82 @@ router.get(
 /* ************************************************************************************** */
 // My Questions
 /* ************************************************************************************** */
-router.get('/users/:id/questions', asyncHandler(async (req, res) => {
-    if (!res.locals.authenticated) {
-        return res.redirect("/login")
-    }
-    else if(parseInt(req.params.id, 10)!== res.locals.user.id){
-        res.redirect("/")
-    }
-        else {
-        const questions = await db.Question.findAll({
-            where: { userId: res.locals.user.id },
-            include: [
-                { model: User, as: "User", attributes: ["username"] },
-                { model: Vote, as: "Votes", attributes: ["isDownvote"] },
-                {
-                    model: Answer,
-                    as: "Answers",
-                    attributes: [
-                        [Answer.sequelize.fn("COUNT", "id"), "answerCount"],
-                    ],
-                },
-            ],
-            order: [["createdAt", "DESC"]],
-            attributes: ["title", "content", "createdAt", "id"],
-            group: ["Question.id", "User.id", "Votes.id", "Answers.id"],
-        });
-        addVoteCount(questions);
-        addAnswerCount(questions);
-        convertDate(questions);
-        res.render("myQuestion", { questions });
-    }
-}));
+router.get(
+    "/users/:id/questions",
+    asyncHandler(async (req, res) => {
+        if (!res.locals.authenticated) {
+            return res.redirect("/login");
+        } else if (parseInt(req.params.id, 10) !== res.locals.user.id) {
+            res.redirect("/");
+        } else {
+            const questions = await db.Question.findAll({
+                where: { userId: res.locals.user.id },
+                include: [
+                    { model: User, as: "User", attributes: ["username"] },
+                    { model: Vote, as: "Votes", attributes: ["isDownvote"] },
+                    {
+                        model: Answer,
+                        as: "Answers",
+                        attributes: [
+                            [Answer.sequelize.fn("COUNT", "id"), "answerCount"],
+                        ],
+                    },
+                ],
+                order: [["createdAt", "DESC"]],
+                attributes: ["title", "content", "createdAt", "id"],
+                group: ["Question.id", "User.id", "Votes.id", "Answers.id"],
+            });
+            addVoteCount(questions);
+            addAnswerCount(questions);
+            convertDate(questions);
+            if (res.locals.authenticated) {
+                await didIVote(questions, res);
+            }
+            res.render("myQuestion", { questions });
+        }
+    })
+);
 
 /* ************************************************************************************** */
 // My Answers
 /* ************************************************************************************** */
 
-router.get('/users/:id/answers', asyncHandler(async (req, res) => {
-    if (!res.locals.authenticated) {
-        return res.redirect("/login")
-    }
-    else if(parseInt(req.params.id, 10)!== res.locals.user.id){
-        res.redirect("/")
-    }
-        else {
-        const questions = await db.Question.findAll({
-            include: [
-                { model: User, as: "User", attributes: ["username"] },
-                { model: Vote, as: "Votes", attributes: ["isDownvote"] },
-                {
-                    model: Answer,
-                    as: "Answers",
-                    attributes: [
-                        [Answer.sequelize.fn("COUNT", "id"), "answerCount"],
-                        "userId"
-                    ],
-                    where: {"userId": res.locals.user.id}
-                },
-            ],
-            order: [["createdAt", "DESC"]],
-            attributes: ["title", "content", "createdAt", "id"],
-            group: ["Question.id", "User.id", "Votes.id", "Answers.id"],
-        });
-        addVoteCount(questions);
-        addAnswerCount(questions);
-        convertDate(questions);
-        res.render("myQuestion", { questions });
-    }
-}));
+router.get(
+    "/users/:id/answers",
+    asyncHandler(async (req, res) => {
+        if (!res.locals.authenticated) {
+            return res.redirect("/login");
+        } else if (parseInt(req.params.id, 10) !== res.locals.user.id) {
+            res.redirect("/");
+        } else {
+            const questions = await db.Question.findAll({
+                include: [
+                    { model: User, as: "User", attributes: ["username"] },
+                    { model: Vote, as: "Votes", attributes: ["isDownvote"] },
+                    {
+                        model: Answer,
+                        as: "Answers",
+                        attributes: [
+                            [Answer.sequelize.fn("COUNT", "id"), "answerCount"],
+                            "userId",
+                        ],
+                        where: { userId: res.locals.user.id },
+                    },
+                ],
+                order: [["createdAt", "DESC"]],
+                attributes: ["title", "content", "createdAt", "id"],
+                group: ["Question.id", "User.id", "Votes.id", "Answers.id"],
+            });
+            addVoteCount(questions);
+            addAnswerCount(questions);
+            convertDate(questions);
+
+            if (res.locals.authenticated) {
+                await didIVote(questions, res);
+            }
+            res.render("myQuestion", { questions });
+        }
+    })
+);
 
 module.exports = router;

@@ -4,20 +4,35 @@ include utils.pug
 
 append head
   script(src="/javascripts/demo.js" type="module" async defer)
-  link(rel="stylesheet" href="/stylesheets/new-comment.css")
+  link(rel="stylesheet" href="/stylesheets/new-answer.css")
 
 block content
   include top-nav
   include side-nav
   div.main
-    div.form-elements
-      h2 New comment
-      +validationErrorSummary(errors)
-      .answer-container
-        p.answer-content= answer.content
-      form(method="post" action=`/answers/${answerId}/comments`)
-        input(type="hidden" name='_csrf' value=csrfToken)
-        div.form-comment
-          label(for="comment") Comment:
-          textarea.comment-input(name="comment" maxlength=255 required)
-          input.form-submit(type="submit" value='Submit')
+    div.form-container
+      h2.form-title Post A New Comment
+      //- h1.form-container__header Register
+      div.form-container__elements
+          +validationErrorSummary(errors)
+          .question-container
+              p.question-content=answer.content
+          form(action=`/answers/${answerId}/comments` method='post')
+              input(required type='hidden' name='_csrf' value=csrfToken)
+              textarea.form-elements__content__input(placeholder="Comment" required name="comment" maxlength=255)
+              div.form-container-elements__actions-container
+                  button.form-container-elements__button(type='submit') Submit
+                  a.form-container-elements__cancel(href=`/questions/${answer.questionId}`) Cancel
+    //- div.form-elements
+    //-   h2 New comment
+    //-   +validationErrorSummary(errors)
+    //-   .answer-container
+    //-     p.answer-content= answer.content
+    //-   form(method="post" action=`/answers/${answerId}/comments`)
+    //-     input(type="hidden" name='_csrf' value=csrfToken)
+    //-     div.form-comment
+    //-       label(for="comment") Comment:
+    //-       textarea.comment-input(name="comment" maxlength=255 required)
+    //-     div.form-elements__buttons
+    //-       input.form-elements__buttons__submit(type="submit" value='Submit')
+    //-       a.form-elements__buttons__cancel(href=`/questions/${answer.questionId}`) Cancel
