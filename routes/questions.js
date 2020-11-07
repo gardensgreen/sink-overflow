@@ -107,6 +107,54 @@ const convertDateAnswers = (answers) => {
     }
 };
 
+const didIVoteQuestion = async (question, res) => {
+    const vote = await db.Vote.findOne({
+        where: {
+            userId: res.locals.user.id,
+            questionId: question.id,
+        },
+    });
+
+    if (vote) {
+        if (vote.isDownvote) {
+            question.userDownVote = true;
+            question.userUpVote = false;
+        } else {
+            question.userDownVote = false;
+            question.userUpVote = true;
+        }
+    } else {
+        question.userDownVote = false;
+        question.userUpVote = false;
+    }
+};
+
+const didIVoteAnswers = async (answers, res) => {
+    for (let i = 0; i < answers.length; i++) {
+        let answer = answers[i];
+
+        const vote = await db.Vote.findOne({
+            where: {
+                userId: res.locals.user.id,
+                answerId: answer.id,
+            },
+        });
+
+        if (vote) {
+            if (vote.isDownvote) {
+                answer.userDownVote = true;
+                answer.userUpVote = false;
+            } else {
+                answer.userDownVote = false;
+                answer.userUpVote = true;
+            }
+        } else {
+            answer.userDownVote = false;
+            answer.userUpVote = false;
+        }
+    }
+};
+
 /* ********************************************************************************************************************/
 
 //Validators
@@ -232,6 +280,11 @@ router.get(
         addVoteCountAnswers(question.Answers);
         convertDateAnswers(question.Answers);
         await addAnswerAuthor(question.Answers);
+
+        if (res.locals.authenticated) {
+            await didIVoteQuestion(question, res);
+            await didIVoteAnswers(question.Answers, res);
+        }
 
         // console.log(question);
 

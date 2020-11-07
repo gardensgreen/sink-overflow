@@ -1,7 +1,24 @@
+@font-face {
+    font-family: "Eurostile-Reg";
+    src: url("../fonts/EuroStyle\ Normal.ttf");
+
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "Eurostile";
+    src: url("../fonts/EuroStyleExtended.ttf");
+
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
     padding: 50px;
     font: 14px "Montserrat", sans-serif;
-    background-color: #ecf5ff;
+    background: url(../textured-overlay-2.png) no-repeat, #ecf5ff;
+    background-size: cover;
 }
 
 a {
@@ -43,14 +60,6 @@ h1 {
 input,
 button {
     font: 14px "Montserrat", "Montserrat", "Montserrat", "Montserrat";
-}
-
-.questions-block {
-    background-color: #dfe7f0;
-    margin: 25px 175px;
-    display: flex;
-    border-radius: 10px;
-    transition: background-color 600ms ease;
 }
 
 a {

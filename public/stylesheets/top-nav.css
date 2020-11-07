@@ -6,6 +6,8 @@
 
     margin-bottom: 5rem;
     text-align: left;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+        rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
 }
 
 .navbar-nav-top {
@@ -28,8 +30,8 @@
 
 .logo {
     size: 100%;
-    width: 280px;
-    height: 80px;
+    width: 250px;
+    height: 50px;
 }
 
 .search-container input {
@@ -46,13 +48,15 @@
 .logout-btn {
     padding: 10px 30px;
 
-    border-radius: 10px;
+    border-radius: 4px;
     border: none;
 
     background-color: #9dd6fc;
     color: #ecf5ff;
     transition: background-color 0.5s;
     transition-timing-function: ease-in-out;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+        rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
 }
 
 .logout-btn:hover {
@@ -62,9 +66,10 @@
 .login {
     padding: 10px 30px;
 
-    border-radius: 10px;
+    border-radius: 4px;
     border: none;
-
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+        rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
     background-color: #9dd6fc;
     color: #ecf5ff;
     transition: background-color 0.5s;
