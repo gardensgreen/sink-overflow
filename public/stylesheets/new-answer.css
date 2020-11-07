@@ -1,84 +1,99 @@
 textarea {
     resize: none;
 }
-h2 {
-    font-size: 20px;
-    color: #0099ff;
-    margin-bottom: 10px;
+body {
+    background-color: #ecf5ff;
 }
 
-label {
+.logo-container {
+    padding: 10px;
+    padding: 8rem 0;
+
+    /* background-image: url(../Logo-02.svg); */
+    /* size: 100%; */
+}
+
+.form-title {
+    text-align: center;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    color: #02b8f2;
+}
+.form-container {
+    background-color: #dfe7f0c2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 550px;
+    margin: 150px auto;
+    border-radius: 4px;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+        rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
     padding: 10px;
 }
 
-.main {
+.form-container__elements {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100%;
 }
 
-.form-elements {
-    background-color: #dfe7f0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    margin: 80px auto;
-    border-radius: 10px;
-}
-.form-elements__title {
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
-}
-
-.form-elements__content {
-    display: flex;
-    flex-direction: column;
-    padding: 5px;
-}
-
-.form-elements__buttons {
-    display: flex;
-    justify-content: center;
+input {
+    background-color: #fff;
+    border-radius: 4px;
+    padding: 10px 10px;
+    width: 378px;
+    margin: 5px;
+    border: none;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+        rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
 }
 
 .form-elements__content__input {
-    width: 500px;
-    height: 200px;
-    border-radius: 10px;
-    background-color: #cfd4d4;
-    border: none;
-    /* padding: 10px; */
-}
-
-.form-elements__title__input {
-    border-radius: 10px;
-    background-color: #cfd4d4;
+    font-family: "Montserrat";
+    background-color: #fff;
+    border-radius: 4px;
     padding: 10px;
     margin: 5px;
     border: none;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+        rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
+    width: 378px;
+    height: 200px;
 }
-
-.form-elements__buttons__submit {
+.form-container-elements__button {
     padding: 10px;
-    margin: 10px;
-    border-radius: 10px;
+    margin: 5px;
+    margin-top: 15px;
+    border-radius: 4px;
     border: none;
+    width: 95%;
     background-color: #9dd6fc;
     color: #ecf5ff;
+    transition: background-color 0.5s;
+    transition-timing-function: ease-in-out;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 1px 0px,
+        rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 48px;
 }
 
-.form-elements__buttons__cancel {
-    margin: 10px;
-    padding: 10px;
-    border-radius: 10px;
-    border: none;
-    background-color: #9dd6fc;
-    color: #ecf5ff;
+.form-container-elements__button:hover {
+    background-color: #02b8f2;
 }
 
-label {
+.form-container-elements__cancel {
+    padding: 5px;
+    margin: 0 auto;
+    text-align: center;
+    color: #ff7d7d;
+}
+
+.form-container__header {
+    display: block;
+    margin-top: 25px;
+    margin-bottom: 10px;
     color: #0099ff;
 }
 
@@ -92,9 +107,28 @@ label {
     color: #ff0000;
     margin-left: 10px;
     margin-right: 10px;
-    padding: 20px;
+    padding-bottom: 10px;
     /* margin: 10px auto; */
     /* padding: 5px; */
+}
+
+.form-container-elements__actions-container {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+ul li {
+    /* text-align: center; */
+    margin-left: 55px;
+    margin-right: 55px;
+    margin-bottom: 5px;
+    font-size: 0.8em;
+}
+
+p a {
+    color: #0099ff;
 }
 
 .question-container {
@@ -102,11 +136,15 @@ label {
     align-items: center;
     flex-direction: column;
     margin-bottom: 10px;
-    border-radius: 10px;
-    border: 1px solid #9dd6fc;
-    color: #0099ff;
+    border-radius: 4px;
+    border: 1px solid #02b8f2;
+    color: #02b8f2;
     margin-left: 10px;
     margin-right: 10px;
     padding: 20px;
-    max-width: 500px;
+    max-width: 378px;
+}
+
+.question-title {
+    font-weight: bold;
 }

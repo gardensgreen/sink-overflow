@@ -1,10 +1,9 @@
 var express = require("express");
 var router = express.Router();
-const csurf = require("csurf");
 
 const db = require("../db/models");
 const { Answer, Comment, Question, User, Vote, sequelize } = db;
-const { asyncHandler } = require("../utils");
+const { asyncHandler, csrfProtection } = require("../utils");
 
 //Helper Functions
 const trimContent = (questions) => {
@@ -108,6 +107,7 @@ function convertDate(questions) {
 
 router.get(
     "/",
+    csrfProtection,
     asyncHandler(async (req, res) => {
         const questions = await Question.findAll({
             include: [
@@ -137,7 +137,7 @@ router.get(
         }
 
         // console.log(questions);
-        res.render("index", { questions });
+        res.render("index", { questions, csrfToken: req.csrfToken() });
     })
 );
 
