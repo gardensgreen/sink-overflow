@@ -1,7 +1,8 @@
 body {
     padding: 50px;
     font: 14px "Montserrat", sans-serif;
-    background-color: #ecf5ff;
+    background: url(../textured-overlay-2.png) no-repeat, #ecf5ff;
+    background-size: cover;
 }
 
 a {
