@@ -1,0 +1,18 @@
+development:
+  cloud_name: sinkoverflow
+  api_key: '878285479738192'
+  api_secret: djM-ZcroJldgmx57lfTU-9HRQ_g
+  enhance_image_tag: true
+  static_file_support: false
+production:
+  cloud_name: sinkoverflow
+  api_key: '878285479738192'
+  api_secret: djM-ZcroJldgmx57lfTU-9HRQ_g
+  enhance_image_tag: true
+  static_file_support: true
+test:
+  cloud_name: sinkoverflow
+  api_key: '878285479738192'
+  api_secret: djM-ZcroJldgmx57lfTU-9HRQ_g
+  enhance_image_tag: true
+  static_file_support: false

@@ -1,10 +1,18 @@
 var express = require("express");
 const { check, validationResult } = require("express-validator");
 
+const multer = require('multer');
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+const stream = require('stream');
+
 const { csrfProtection, asyncHandler } = require("../utils");
 const db = require("../db/models");
+const cloudinary = require('cloudinary').v2;
+require('dotenv').config();
 
-var router = express.Router();
+const router = express.Router();
+
 
 //Helper Functions
 /* ********************************************************************************************************************/
@@ -118,6 +126,14 @@ const convertDate = (question) => {
     let parts = createdAt.split(" ");
     question.formattedDate = months[parts[1]] + "/" + parts[2] + "/" + parts[3];
 };
+
+cloudinary.config({ 
+    cloud_name: 'sinkoverflow', 
+    api_key: '878285479738192', 
+    api_secret: 'djM-ZcroJldgmx57lfTU-9HRQ_g' 
+});
+  
+
 const questionNotFoundError = (id) => {
     const err = Error(`Question with id of ${id} could not be found.`);
     err.title = "Question not found.";
@@ -248,51 +264,115 @@ router.get(
 /* ********************************************************************************************************************/
 router.post(
     "/",
+    upload.single('image'),
     csrfProtection,
     questionValidators,
-    asyncHandler(async (req, res, next) => {
-        const { title, content } = req.body;
-        const userId = res.locals.user.id;
-
-        const question = db.Question.build({
-            title,
+  asyncHandler(async (req, res, next) => {
+    
+    if (req.file) {
+      const { title, content } = req.body;
+      const userId = res.locals.user.id;
+      const question = db.Question.build({
+        title,
+        content,
+        userId,
+      });
+      
+      let upload_stream = cloudinary.uploader.upload_stream(async function (err, result) {
+        let image = result.url
+        question.image = result.url
+         const validatorErrors = validationResult(req);
+      try {
+        if (validatorErrors.isEmpty()) {
+          await question.save();
+          res.redirect("/");
+          return res.send()
+        } else {
+          const errors = validatorErrors
+            .array()
+            .map((error) => error.msg);
+          res.render("new-question", {
+            title: title,
             content,
-            userId,
-        });
-
-        // console.log(title);
-        const validatorErrors = validationResult(req);
-        try {
-            if (validatorErrors.isEmpty()) {
-                await question.save();
-                res.redirect("/");
-            } else {
-                const errors = validatorErrors
-                    .array()
-                    .map((error) => error.msg);
-                res.render("new-question", {
-                    title: title,
-                    content,
-                    errors,
-                    csrfToken: req.csrfToken(),
-                });
-            }
-        } catch (err) {
-            if (
-                err.name === "SequelizeValidationError" ||
-                err.name === "SequelizeUniqueConstraintError"
-            ) {
-                const errors = err.errors.map((error) => error.message);
-                res.render("new-question", {
-                    title: "New Question",
-                    question,
-                    errors,
-                    csrfToken: req.csrfToken(),
-                });
-            } else {
-                next(err);
-            }
+            errors,
+            csrfToken: req.csrfToken(),
+          });
+          return res.send()
         }
+      } catch (err) {
+        if (
+          err.name === "SequelizeValidationError" ||
+          err.name === "SequelizeUniqueConstraintError"
+        ) {
+          const errors = err.errors.map((error) => error.message);
+          res.render("new-question", {
+            title: "New Question",
+            question,
+            errors,
+            csrfToken: req.csrfToken(),
+          });
+          return res.send()
+        } else {
+          next(err);
+        }
+      }
+        console.log('question' , question)
+        console.log('image:=   ', image)
+      });
+       
+      var bufferStream = new stream.PassThrough();
+      bufferStream.end(req.file.buffer);
+      bufferStream.pipe(upload_stream);
+      console.log('uploadstream....', upload_stream)
+      
+     
+    } else {
+      const { title, content } = req.body;
+      const userId = res.locals.user.id;
+      
+      const question = db.Question.build({
+        title,
+        content,
+        userId,
+      });
+
+    
+      const validatorErrors = validationResult(req);
+      try {
+        if (validatorErrors.isEmpty()) {
+          await question.save();
+          res.redirect("/");
+          return res.send()
+        } else {
+          const errors = validatorErrors
+            .array()
+            .map((error) => error.msg);
+          res.render("new-question", {
+            title: title,
+            content,
+            errors,
+            csrfToken: req.csrfToken(),
+          });
+          return res.send()
+        }
+      } catch (err) {
+        if (
+          err.name === "SequelizeValidationError" ||
+          err.name === "SequelizeUniqueConstraintError"
+        ) {
+          const errors = err.errors.map((error) => error.message);
+          res.render("new-question", {
+            title: "New Question",
+            question,
+            errors,
+            csrfToken: req.csrfToken(),
+          });
+          return res.send()
+        } else {
+          next(err);
+        }
+      }
+    }
     })
 );
 /* ********************************************************************************************************************/

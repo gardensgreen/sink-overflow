@@ -1,0 +1,28 @@
+//- extends layout.pug
+
+//- include utils.pug
+
+//- append head
+//-   link(rel="stylesheet" href="/stylesheets/new-question.css")
+
+//- block content
+//-     include top-nav
+//-     include side-nav
+//-     div.main
+//-         div.form-container
+//-             h2.form-title Post A New Question
+//-             //- h1.form-container__header Register
+//-             div.form-container__elements
+//-                 +validationErrorSummary(errors)
+//-                 form(action='/questions' method='post' enctype="multipart/form-data")
+//-                     input(required type='hidden' name='_csrf' value=csrfToken)
+//-                     +field('title', null, 'Title')
+//-                     textarea.form-elements__content__input(placeholder="Content" required name="content" maxlength=255)
+//-                     div.form.my-form
+//-                         p Upload file with the file dialog button below
+//-                         input(type="file" id="fileElem" multiple accept="image/*" name="image")
+//-                         label(for="fileElem" class="button")
+//-                     div.form-container-elements__actions-container
+//-                         button.form-container-elements__button(type='submit') Submit
+//-                         //- a.form-container-elements__cancel(href='/') Cancel 
+//- //- enctype="multipart/form-data" 
