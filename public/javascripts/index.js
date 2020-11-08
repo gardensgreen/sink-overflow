@@ -276,4 +276,9 @@ window.addEventListener("load", (event) => {
             }
         });
     }
+
+    const darkModeBtn = document.querySelector(".dark-mode-btn");
+    darkModeBtn.addEventListener("click", (e) => {
+        document.documentElement.classList.toggle("dark-mode");
+    });
 });
