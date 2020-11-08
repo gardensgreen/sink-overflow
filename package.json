@@ -22,15 +22,29 @@
     "file-dialog": "0.0.8",
     "http-errors": "~1.6.3",
     "morgan": "~1.9.1",
+    "multer": "^1.3.0",
     "per-env": "^1.0.2",
     "pg": "^8.4.2",
     "pug": "2.0.4",
-    "sequelize": "^5.22.3"
+    "sequelize": "^5.22.3",
+    "streamifier": "^0.1.1"
   },
   "devDependencies": {
     "dotenv": "^8.2.0",
     "dotenv-cli": "^4.0.0",
     "nodemon": "^2.0.6",
     "sequelize-cli": "^5.5.1"
-  }
+  },
+  "description": "Use this project skeleton as a starting point for structuring your app. Things to note * Sequelize configuration has not yet been added -- you will need to set that up yourself * You may find yourself wanting to use javascript -- js files can be added in `public/javascripts` and should be appended to the Pug templates as needed * CSS files can go in `public/stylesheets` and also will need to be added to Pug templates",
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gardensgreen/sink-overflow.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gardensgreen/sink-overflow/issues"
+  },
+  "homepage": "https://github.com/gardensgreen/sink-overflow#readme"
 }

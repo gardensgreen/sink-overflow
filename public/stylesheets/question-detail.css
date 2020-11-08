@@ -338,3 +338,8 @@ ul li {
 .voted {
     border-color: #0099ff transparent transparent #0099ff;
 }
+
+.imageScr1{
+    max-width: 70px;
+    margin-top: 5px;
+}
