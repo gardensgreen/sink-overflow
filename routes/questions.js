@@ -8,6 +8,48 @@ var router = express.Router();
 
 //Helper Functions
 /* ********************************************************************************************************************/
+function swap(questions, leftIndex, rightIndex) {
+    let temp = questions[leftIndex];
+    questions[leftIndex] = questions[rightIndex];
+    questions[rightIndex] = temp;
+}
+function partition(questions, left, right) {
+    let pivot = questions[Math.floor((right + left) / 2)], //middle element
+        i = left, //left pointer
+        j = right; //right pointer
+    while (i <= j) {
+        while (questions[i].voteCount > pivot.voteCount) {
+            i++;
+        }
+        while (questions[j].voteCount < pivot.voteCount) {
+            j--;
+        }
+        if (i <= j) {
+            console.log("swapped");
+            swap(questions, i, j); //sawpping two elements
+            i++;
+            j--;
+        }
+    }
+    return i;
+}
+
+function quickSort(items, left, right) {
+    var index;
+    if (items.length > 1) {
+        index = partition(items, left, right); //index returned from partition
+        if (left < index - 1) {
+            //more elements on the left side of the pivot
+            quickSort(items, left, index - 1);
+        }
+        if (index < right) {
+            //more elements on the right side of the pivot
+            quickSort(items, index, right);
+        }
+    }
+    return items;
+}
+
 const addVoteCountQuestion = (question) => {
     let voteCount = 0;
     for (let j = 0; j < question.Votes.length; j++) {
@@ -286,6 +328,12 @@ router.get(
             await didIVoteAnswers(question.Answers, res);
         }
 
+        //Sort answers
+        question.Answers = quickSort(
+            question.Answers,
+            0,
+            question.Answers.length - 1
+        );
         // console.log(question);
 
         res.render("question-detail", { question });
