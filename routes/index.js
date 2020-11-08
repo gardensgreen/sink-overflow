@@ -6,6 +6,51 @@ const { Answer, Comment, Question, User, Vote, sequelize } = db;
 const { asyncHandler, csrfProtection } = require("../utils");
 
 //Helper Functions
+function swap(questions, leftIndex, rightIndex) {
+    let temp = questions[leftIndex];
+    questions[leftIndex] = questions[rightIndex];
+    questions[rightIndex] = temp;
+}
+function partition(questions, left, right) {
+    let pivot = questions[Math.floor((right + left) / 2)], //middle element
+        i = left, //left pointer
+        j = right; //right pointer
+    while (i <= j) {
+        console.log("????");
+
+        while (questions[i].voteCount > pivot.voteCount) {
+            console.log("less");
+            i++;
+        }
+        while (questions[j].voteCount < pivot.voteCount) {
+            console.log("more");
+            j--;
+        }
+        if (i <= j) {
+            console.log("swapped");
+            swap(questions, i, j); //sawpping two elements
+            i++;
+            j--;
+        }
+    }
+    return i;
+}
+
+function quickSort(items, left, right) {
+    var index;
+    if (items.length > 1) {
+        index = partition(items, left, right); //index returned from partition
+        if (left < index - 1) {
+            //more elements on the left side of the pivot
+            quickSort(items, left, index - 1);
+        }
+        if (index < right) {
+            //more elements on the right side of the pivot
+            quickSort(items, index, right);
+        }
+    }
+    return items;
+}
 const trimContent = (questions) => {
     for (let i = 0; i < questions.length; i++) {
         let question = questions[i];
@@ -109,7 +154,7 @@ router.get(
     "/",
     csrfProtection,
     asyncHandler(async (req, res) => {
-        const questions = await Question.findAll({
+        let questions = await Question.findAll({
             include: [
                 { model: User, as: "User", attributes: ["username"] },
                 { model: Vote, as: "Votes", attributes: ["isDownvote"] },
@@ -134,6 +179,11 @@ router.get(
 
         if (res.locals.authenticated) {
             await didIVote(questions, res);
+        }
+
+        questions = quickSort(questions, 0, questions.length - 1);
+        for (let question of questions) {
+            console.log(question.voteCount);
         }
 
         // console.log(questions);
