@@ -65,6 +65,47 @@ Below is an example of how our vote API is working for the moment
 
 <img src='./public/vote-code-snippet.png' align="center" alt="Code snippet" width="400">
 
+## Usage
+
+### Development
+
+Want to contribute?
+
+To fix a bug or add a feature, follow these steps:
+
+- Fork the repository
+- Create a new branch with `git checkout -b feature-branch-name`
+- Make appropriate changes to the files and push back to github
+- Create a Pull Request
+   - Use a clear and descriptive title for the issue to identify the suggestion.
+   - Include any relevant issue numbers in the PR body, not the title.
+   - Provide a comprehensive description of all changes made.
+
+#### Setting Up and Starting a Local Server
+
+1. Download code and `npm install` to install all node dependencies
+2. Create a psql db user with createdb privileges.
+   - Duplicate the `.env.example` for the `dotenv` package.
+   - Update the following variables:
+      - `PORT` the port that the server will listen to, 8080 by default
+      - `DB_USERNAME` the user of the created psql db user
+      - `DB_PASSWORD` the password for the psql db user
+      - `SESSION_SECRET` a session secret key for encrypting session id's in the database
+      - All other variables should remain the same
+3. Setup PostgreSQL database
+   - Run `npx dotenv sequelize db:create`
+   - Run `npx dotenv sequelize db:migrate`
+   - Run `npx dotenv sequelize db:seed:all`
+4. Start express server by running `npm start` in the root project directory
+5. The server will start on `http://localhost:8080`
+
+## Team
+
+| [Jhonathan Ade](https://github.com/adesko24) | [Rashmi Jain](https://github.com/monajain99) | [Daniel Tillero](https://github.com/gardensgreen) |
+|-|-|-|
+
+
+
 
 
 
