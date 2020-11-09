@@ -1,5 +1,3 @@
-# Sink Overflow
-
 <img src='./public/ternary-logo.png' align="center" alt="Sink Overflow logo" width="300">
 <br>
 
