@@ -49,7 +49,7 @@ Below is an example of our basic auth functionality.
 
 <img src='./public/auth-code-snippet.png' align="center" alt="Code snippet" width="400">
 
-### Search API
+#### Search API
 
 The search API is fairly simple and uses SQL wildcards to match search terms and question titles.
 
@@ -57,7 +57,7 @@ Below is an example of how our search API is working for the moment
 
 <img src='./public/search-code-snippet.png' align="center" alt="Code snippet" width="400">
 
-### Polymorphic Voting API
+#### Polymorphic Voting API
 
 The voting api has separate routes for handling question votes and answer votes. The route handles CRUD operations through a single endpoint. This was achieved by checking the user's vote status on a question/answer before each operation. If a user has a vote and then tries to vote again it deletes the vote in the database, if a user changes their vote status from upvote to downvote the item is updated and if a user doesn't already have a vote, it is created. The bigger challenge was getting the DOM to respond to the API route and it's polymorphic nature. 
 
