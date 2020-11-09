@@ -1,4 +1,5 @@
 module.exports = {
+    sessionSecret: process.env.SESSION_SECRET || "djM-ZcroJldgmx57lfTU-9HRQ_g",
     environment: process.env.NODE_ENV || "development",
     port: process.env.PORT || 8080,
     db: {
@@ -7,5 +8,6 @@ module.exports = {
         database: process.env.DB_DATABASE,
         host: process.env.DB_HOST,
     },
-    sessionSecret: process.env.SESSION_SECRET,
+    
+   // cloudinary://878285479738192:djM-ZcroJldgmx57lfTU-9HRQ_g@sinkoverflow,
 };

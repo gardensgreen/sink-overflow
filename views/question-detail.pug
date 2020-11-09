@@ -36,6 +36,8 @@ block content
             div.questions-block__content
               li.question-block__content__title= question.title
               li.question-block__content__question= question.content
+              //li.question-block__image= question.image
+              img.imageScr1(src=question.image)
             div.questions-block__user-info
               li= question.User.username
               li= question.formattedDate
