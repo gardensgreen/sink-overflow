@@ -48,10 +48,6 @@
     display: flex;
 }
 
-.dark-mode {
-    filter: invert(100%);
-}
-
 .logout-btn {
     padding: 10px 30px;
     margin-left: 0.5rem;

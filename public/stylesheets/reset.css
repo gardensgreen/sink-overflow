@@ -1,19 +1,6 @@
-@font-face {
-    font-family: "Eurostile-Reg";
-    src: url("../fonts/EuroStyle\ Normal.ttf");
-
-    font-weight: normal;
-    font-style: normal;
+.dark-mode {
+    filter: invert(100%);
 }
-
-@font-face {
-    font-family: "Eurostile";
-    src: url("../fonts/EuroStyleExtended.ttf");
-
-    font-weight: normal;
-    font-style: normal;
-}
-
 body {
     padding: 50px;
     font: 14px "Montserrat", sans-serif;
