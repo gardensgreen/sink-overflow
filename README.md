@@ -3,14 +3,6 @@
 
 **Sink Overflow** is a platform for both home improvement questions and answers, modeled on [Stack Overflow] (https://www.stackoverflow.com/). It allows users to create questions, answers, and comments. It also uses RESTful API routes that allow users to vote on questions and answers, attach images to their questions, and search for questions.
 
-## Demo
-
-Here is a working live demo: [https://sink-overflow.herokuapp.com](https://sink-overflow.herokuapp.com)
-
-## Application Architecture
-
-<img src='./public/appArchitectureDiagram.png' align="center" alt="App Architecture Diagram" width="600">
-
 Dependencies used
 - bcrypt
 - cookie-parser
@@ -25,6 +17,16 @@ Dependencies used
 - express-session
 - express-validator
 - node-postgres
+
+## Demo
+
+Here is a working live demo: [https://sink-overflow.herokuapp.com](https://sink-overflow.herokuapp.com)
+
+## Application Architecture
+
+<img src='./public/appArchitectureDiagram.png' align="center" alt="App Architecture Diagram" width="600">
+
+
 
 Sink Overflow's backend server was built using Express for Node and utilized the pug templating engine to serve static HTML. The server has a RESTful API layer for some of the more dynamic functionalities, such as voting and search. The server is connected to a PostgreSQL database which leverages sequelize and it's ORM for CRUD operations.
 
